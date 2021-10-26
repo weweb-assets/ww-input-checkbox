@@ -1,22 +1,20 @@
 <template>
-    <div class="ww-webapp-checkbox" :style="cssVariables" :class="{ editing: isEditing, selected: isSelected }">
-        <!-- <div class="input-container">
-            <wwElement
-                ref="searchInput"
-                class="textInput"
-                v-bind="content.textInput"
-                @element-event="handleInputChange"
-            ></wwElement>
-        </div>
-        <div v-if="content.submitEvent === 'button'" class="button-container">
-            <wwElement class="submitButton" v-bind="content.submitButton" @click="handleClick"></wwElement>
-        </div> -->
-
-        <input type="checkbox">
+    <div
+        class="ww-webapp-checkbox"
+        :style="cssVariables"
+        :class="{ editing: isEditing, selected: isSelected }"
+        @click="handleClick"
+    >
+        <input type="checkbox" ref="checkboxInput" v-model="checked" @prevent.stop />
+        <wwElement
+            v-if="content.isEmbeddedContainer"
+            class="embedded-container"
+            v-bind="content.embeddedContainer"
+        ></wwElement>
 
         <!-- wwEditor:start -->
         <div class="ww-webapp-checkbox__menu">
-            <wwEditorIcon small name="fontawesome/solid/search" />
+            <wwEditorIcon small name="fontawesome/solid/check-square" />
         </div>
         <!-- wwEditor:end -->
     </div>
@@ -33,7 +31,7 @@ export default {
     emits: ['update:content', 'trigger-event'],
     data() {
         return {
-            debounce: null,
+            checked: false,
         };
     },
     computed: {
@@ -53,39 +51,23 @@ export default {
         },
         cssVariables() {
             let flexDirection = 'row';
-            if (this.content.buttonPosition === 'left' || this.content.buttonPosition === 'right') {
-                if (this.content.buttonPosition === 'left') flexDirection = 'row-reverse';
+            if (this.content.containerPosition === 'left' || this.content.containerPosition === 'right') {
+                if (this.content.containerPosition === 'left') flexDirection = 'row-reverse';
                 else flexDirection = 'row';
             } else {
-                if (this.content.buttonPosition === 'top') flexDirection = 'column-reverse';
+                if (this.content.containerPosition === 'top') flexDirection = 'column-reverse';
                 else flexDirection = 'column';
             }
 
-            const buttonWidthValue = 100 - wwLib.wwUtils.getLengthUnit(this.content.inputWidth)[0];
-            const buttonWidth =
-                this.content.buttonPosition === 'top' || this.content.buttonPosition === 'bottom'
-                    ? '100%'
-                    : buttonWidthValue.toString() + '%';
-
             return {
                 '--container-direction': flexDirection,
-                '--input-width': this.content.inputWidth,
-                '--button-width': buttonWidth,
             };
         },
     },
     methods: {
-        handleInputChange(event) {
-            if (this.content.submitEvent !== 'debounce') return;
-
-            clearTimeout(this.debounce);
-            this.debounce = setTimeout(() => {
-                this.updateVariableValue(event.target.value);
-            }, wwLib.wwUtils.getLengthUnit(this.content.debounceDelay));
-        },
         handleClick() {
-            const value = this.$refs.searchInput.value;
-            this.updateVariableValue(value);
+            this.checked = !this.checked;
+            this.updateVariableValue(this.checked);
         },
         getVariableValue() {
             if (!this.content.variable) return;
@@ -94,8 +76,7 @@ export default {
         updateVariableValue(value) {
             if (!this.content.variable) return;
             wwLib.wwVariable.updateValue(this.content.variable, value);
-            const eventName = this.content.submitEvent === 'debounce' ? 'change' : 'submit';
-            this.$emit('trigger-event', { name: eventName, event: { value } });
+            this.$emit('trigger-event', { name: 'change', event: { value } });
         },
     },
 };
@@ -106,26 +87,9 @@ export default {
     --container-direction: row;
 }
 .ww-webapp-checkbox {
-    width: 100%;
     display: flex;
     flex-direction: var(--container-direction);
     align-items: center;
-
-    .input-container {
-        width: var(--input-width);
-
-        .text-input {
-            width: 100%;
-        }
-    }
-
-    .button-container {
-        width: var(--button-width);
-
-        .submitButton {
-            width: 100%;
-        }
-    }
 
     /* wwEditor:start */
     &__status {

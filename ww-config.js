@@ -1,21 +1,35 @@
 export default {
     editor: {
         label: {
-            en: 'Search bar',
-            fr: 'Search bar',
+            en: 'Checkbox',
+            fr: 'Checkbox',
         },
-        icon: 'fontawesome/solid/search',
+        icon: 'fontawesome/solid/check-square',
     },
-    triggerEvents: [
-        { name: 'submit', label: { en: 'On submit' }, event: { value: '' } },
-        { name: 'change', label: { en: 'On change' }, event: { value: '' } },
-    ],
+    triggerEvents: [{ name: 'change', label: { en: 'On change' }, event: { value: '' } }],
     properties: {
-        buttonPosition: {
-            hidden: content => content.submitEvent !== 'button',
+        name: {
+            label: { en: 'Name', fr: 'Name' },
+            type: 'Text',
+            options: { placeholder: 'Name' },
+            section: 'settings',
+            defaultValue: 'checkbox',
+        },
+        isEmbeddedContainer: {
+            type: 'OnOff',
             label: {
-                en: 'Button position',
-                fr: 'Position du bouton',
+                en: 'Embedded container',
+                fr: 'Embedded container',
+            },
+            section: 'settings',
+            responsive: true,
+            defaultValue: true,
+        },
+        containerPosition: {
+            hidden: content => !content.isEmbeddedContainer,
+            label: {
+                en: 'Container position',
+                fr: 'Position du container',
             },
             type: 'TextSelect',
             options: {
@@ -26,77 +40,25 @@ export default {
                     { value: 'bottom', label: { en: 'Bottom' } },
                 ],
             },
+            section: 'settings',
             responsive: true,
             defaultValue: 'right',
         },
-        inputWidth: {
-            type: 'Length',
-            label: {
-                en: 'Input width',
-                fr: 'Input width',
-            },
-            options: {
-                unitChoices: [{ value: '%', label: '%', min: 0, max: 100 }],
-            },
-            defaultValue: '50%',
-        },
-        submitEvent: {
-            label: {
-                en: 'Submit event',
-                fr: 'Evenement de soumission',
-            },
-            type: 'TextSelect',
-            options: {
-                options: [
-                    { value: 'debounce', label: { en: 'On change' } },
-                    { value: 'button', label: { en: 'Button' } },
-                ],
-            },
-            section: 'settings',
-            responsive: true,
-            bindable: true,
-            defaultValue: 'debounce',
-        },
-        debounceDelay: {
-            type: 'Length',
-            label: {
-                en: 'Delay',
-                fr: 'Délai',
-            },
-            options: {
-                unitChoices: [{ value: 'ms', label: 'ms', min: 1, max: 5000 }],
-            },
-            section: 'settings',
-            defaultValue: '500ms',
-        },
-        enterKey: {
-            type: 'OnOff',
-            label: {
-                en: 'Submitting by pressing enter',
-                fr: 'Submitting by pressing enter',
-            },
-            section: 'settings',
-            defaultValue: true,
-        },
         variable: {
             label: {
-                en: 'Associated variable',
+                en: 'Associated variable (Boolean)',
             },
             type: 'Variable',
             options: {
-                type: 'String',
+                type: 'Boolean',
             },
             section: 'settings',
             bindable: true,
             defaultValue: null,
         },
-        submitButton: {
+        embeddedContainer: {
             hidden: true,
-            defaultValue: { isWwObject: true, type: 'ww-button' },
-        },
-        textInput: {
-            hidden: true,
-            defaultValue: { isWwObject: true, type: '9c263ffe-7da7-45e7-832c-543aef56faef' },
+            defaultValue: { isWwObject: true, type: 'ww-flexbox' },
         },
     },
 };
