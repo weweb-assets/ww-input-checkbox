@@ -23,7 +23,7 @@ export default {
             },
             section: 'settings',
             responsive: true,
-            defaultValue: true,
+            defaultValue: false,
         },
         containerPosition: {
             hidden: content => !content.isEmbeddedContainer,
@@ -58,7 +58,7 @@ export default {
         },
         embeddedContainer: {
             hidden: true,
-            defaultValue: { isWwObject: true, type: 'ww-flexbox' },
+            defaultValue: null,
         },
     },
 };

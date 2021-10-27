@@ -5,7 +5,7 @@
         :class="{ editing: isEditing, selected: isSelected }"
         @click="handleClick"
     >
-        <input type="checkbox" ref="checkboxInput" v-model="checked" @prevent.stop />
+        <input ref="checkboxInput" v-model="checked" type="checkbox" />
         <wwElement
             v-if="content.isEmbeddedContainer"
             class="embedded-container"
@@ -29,12 +29,10 @@ export default {
         content: { type: Object, required: true },
     },
     emits: ['update:content', 'trigger-event'],
-    data() {
-        return {
-            checked: false,
-        };
-    },
     computed: {
+        checked() {
+            return this.getVariableValue();
+        },
         isEditing() {
             /* wwEditor:start */
             return this.wwEditorState.editMode === wwLib.wwEditorHelper.EDIT_MODES.EDITION;
@@ -64,10 +62,17 @@ export default {
             };
         },
     },
+    watch: {
+        'content.isEmbeddedContainer': {
+            async handler(value) {
+                if (value) this.$emit('update:content', { embeddedContainer: await wwLib.createElement('ww-flexbox') });
+                else this.$emit('update:content', { embeddedContainer: null });
+            },
+        },
+    },
     methods: {
         handleClick() {
-            this.checked = !this.checked;
-            this.updateVariableValue(this.checked);
+            this.updateVariableValue(!this.checked);
         },
         getVariableValue() {
             if (!this.content.variable) return;
