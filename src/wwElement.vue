@@ -3,7 +3,7 @@
         class="ww-webapp-checkbox"
         :style="cssVariables"
         :class="{ editing: isEditing, selected: isSelected }"
-        @click="handleClick"
+        @click="checked = !checked"
     >
         <input ref="checkboxInput" v-model="checked" type="checkbox" />
         <wwElement
@@ -28,10 +28,26 @@ export default {
         /* wwEditor:end */
         content: { type: Object, required: true },
     },
-    emits: ['update:content', 'trigger-event'],
+    emits: ['update:content:effect', 'trigger-event'],
+    data() {
+        return {
+            internalChecked: false,
+        };
+    },
     computed: {
-        checked() {
-            return this.getVariableValue();
+        checked: {
+            get() {
+                if (!this.content.variable) return this.internalChecked;
+                return wwLib.wwVariable.getValue(this.content.variable);
+            },
+            set(value) {
+                if (!this.content.variable) {
+                    this.internalChecked = value;
+                    return;
+                }
+                wwLib.wwVariable.updateValue(this.content.variable, value);
+                this.$emit('trigger-event', { name: 'change', event: { value } });
+            },
         },
         isEditing() {
             /* wwEditor:start */
@@ -65,23 +81,13 @@ export default {
     watch: {
         'content.isEmbeddedContainer': {
             async handler(value) {
-                if (value) this.$emit('update:content', { embeddedContainer: await wwLib.createElement('ww-flexbox') });
-                else this.$emit('update:content', { embeddedContainer: null });
+                if (value && !this.content.embeddedContainer) {
+                    const embeddedContainer = await wwLib.createElement('ww-flexbox');
+                    this.$emit('update:content:effect', { embeddedContainer });
+                } else if (!value) {
+                    this.$emit('update:content:effect', { embeddedContainer: null });
+                }
             },
-        },
-    },
-    methods: {
-        handleClick() {
-            this.updateVariableValue(!this.checked);
-        },
-        getVariableValue() {
-            if (!this.content.variable) return;
-            return wwLib.wwVariable.getValue(this.content.variable);
-        },
-        updateVariableValue(value) {
-            if (!this.content.variable) return;
-            wwLib.wwVariable.updateValue(this.content.variable, value);
-            this.$emit('trigger-event', { name: 'change', event: { value } });
         },
     },
 };
