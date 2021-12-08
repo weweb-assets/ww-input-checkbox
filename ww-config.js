@@ -50,7 +50,7 @@ export default {
             },
             type: 'Variable',
             options: {
-                type: 'Boolean',
+                type: ['Boolean'],
             },
             section: 'settings',
             bindable: true,
@@ -58,12 +58,12 @@ export default {
         },
         initialValue: {
             label: {
-                'en': 'Initial value'
+                en: 'Initial value',
             },
             type: 'OnOff',
             section: 'settings',
             bindable: true,
-            hidden: content => content.variable
+            hidden: content => content.variable,
         },
         embeddedContainer: {
             hidden: true,
