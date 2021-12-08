@@ -15,6 +15,27 @@ export default {
             section: 'settings',
             defaultValue: 'checkbox',
         },
+        variable: {
+            label: {
+                en: 'Associated variable (Boolean)',
+            },
+            type: 'Variable',
+            options: {
+                type: ['Boolean'],
+            },
+            section: 'settings',
+            bindable: true,
+            defaultValue: null,
+        },
+        initialValue: {
+            label: {
+                en: 'Initial value',
+            },
+            type: 'OnOff',
+            section: 'settings',
+            bindable: true,
+            hidden: content => content.variable,
+        },
         isEmbeddedContainer: {
             type: 'OnOff',
             label: {
@@ -43,27 +64,6 @@ export default {
             section: 'settings',
             responsive: true,
             defaultValue: 'right',
-        },
-        variable: {
-            label: {
-                en: 'Associated variable (Boolean)',
-            },
-            type: 'Variable',
-            options: {
-                type: ['Boolean'],
-            },
-            section: 'settings',
-            bindable: true,
-            defaultValue: null,
-        },
-        initialValue: {
-            label: {
-                en: 'Initial value',
-            },
-            type: 'OnOff',
-            section: 'settings',
-            bindable: true,
-            hidden: content => content.variable,
         },
         embeddedContainer: {
             hidden: true,
