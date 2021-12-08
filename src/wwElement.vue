@@ -103,7 +103,7 @@ export default {
         },
     },
     mounted() {
-        if (this.content.initialValue !== undefined) {
+        if (this.content.initialValue !== undefined && !this.content.variable) {
             this.checked = !!this.content.initialValue;
         }
     },
