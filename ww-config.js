@@ -5,6 +5,12 @@ export default {
             fr: 'Checkbox',
         },
         icon: 'fontawesome/solid/check-square',
+        menuOptions: {
+            quick: {
+                label: { en: 'Checkbox' },
+                sections: ['variable', 'initialValue'],
+            },
+        },
     },
     triggerEvents: [{ name: 'change', label: { en: 'On change' }, event: { value: '' } }],
     properties: {
