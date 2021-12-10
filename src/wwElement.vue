@@ -103,14 +103,14 @@ export default {
         },
         /* wwEditor:start */
         'content.initialValue'(value) {
-            if (this.content.initialValue !== undefined && !this.content.variable) {
+            if (this.content.initialValue && this.content.initialValue !== undefined && !this.content.variable) {
                 this.checked = value;
             }
         },
         /* wwEditor:end */
     },
     mounted() {
-        if (this.content.initialValue !== undefined && !this.content.variable) {
+        if (this.content.initialValue && this.content.initialValue !== undefined && !this.content.variable) {
             this.checked = !!this.content.initialValue;
         }
     },
