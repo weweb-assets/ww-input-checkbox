@@ -8,7 +8,7 @@ export default {
         menuOptions: {
             quick: {
                 label: { en: 'Checkbox' },
-                sections: ['variable', 'initialValue'],
+                sections: ['variableId', 'initialValue'],
             },
         },
     },
@@ -21,7 +21,7 @@ export default {
             section: 'settings',
             defaultValue: 'checkbox',
         },
-        variable: {
+        variableId: {
             label: {
                 en: 'Associated variable (Boolean)',
             },
@@ -40,7 +40,7 @@ export default {
             type: 'OnOff',
             section: 'settings',
             bindable: true,
-            hidden: content => content.variable,
+            hidden: content => content.variableId,
         },
         isEmbeddedContainer: {
             type: 'OnOff',

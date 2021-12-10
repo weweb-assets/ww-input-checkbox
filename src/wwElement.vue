@@ -34,7 +34,7 @@ export default {
     },
     emits: ['update:content:effect', 'trigger-event'],
     setup(props) {
-        const internalVariableId = computed(() => props.content.variable);
+        const internalVariableId = computed(() => props.content.variableId);
         const variableId = wwLib.wwVariable.useComponentVariable(props.uid, 'value', '', internalVariableId);
 
         return { variableId };
@@ -101,6 +101,13 @@ export default {
                 }
             },
         },
+        /* wwEditor:start */
+        'content.initialValue'(value) {
+            if (this.content.initialValue !== undefined && !this.content.variable) {
+                this.checked = value;
+            }
+        },
+        /* wwEditor:end */
     },
     mounted() {
         if (this.content.initialValue !== undefined && !this.content.variable) {
