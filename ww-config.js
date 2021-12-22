@@ -5,6 +5,12 @@ export default {
             fr: 'Checkbox',
         },
         icon: 'fontawesome/solid/check-square',
+        menuOptions: {
+            quick: {
+                label: { en: 'Checkbox' },
+                sections: ['variableId', 'initialValue'],
+            },
+        },
     },
     triggerEvents: [{ name: 'change', label: { en: 'On change' }, event: { value: '' } }],
     properties: {
@@ -14,6 +20,27 @@ export default {
             options: { placeholder: 'Name' },
             section: 'settings',
             defaultValue: 'checkbox',
+        },
+        variableId: {
+            label: {
+                en: 'Associated variable (Boolean)',
+            },
+            type: 'Variable',
+            options: {
+                types: ['Boolean'],
+            },
+            section: 'settings',
+            defaultValue: null,
+            hidden: content => !content.variableId,
+        },
+        initialValue: {
+            label: {
+                en: 'Initial value',
+            },
+            type: 'OnOff',
+            section: 'settings',
+            bindable: true,
+            hidden: content => content.variableId,
         },
         isEmbeddedContainer: {
             type: 'OnOff',
@@ -43,27 +70,6 @@ export default {
             section: 'settings',
             responsive: true,
             defaultValue: 'right',
-        },
-        variable: {
-            label: {
-                en: 'Associated variable (Boolean)',
-            },
-            type: 'Variable',
-            options: {
-                type: 'Boolean',
-            },
-            section: 'settings',
-            bindable: true,
-            defaultValue: null,
-        },
-        initialValue: {
-            label: {
-                'en': 'Initial value'
-            },
-            type: 'OnOff',
-            section: 'settings',
-            bindable: true,
-            hidden: content => content.variable
         },
         embeddedContainer: {
             hidden: true,

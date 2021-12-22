@@ -21,39 +21,39 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+
 export default {
     props: {
         /* wwEditor:start */
         wwEditorState: { type: Object, required: true },
         /* wwEditor:end */
         content: { type: Object, required: true },
-        wwFrontState:  { type: Object, required: true },
+        wwFrontState: { type: Object, required: true },
+        uid: { type: String, required: true },
     },
     emits: ['update:content:effect', 'trigger-event'],
+    setup(props) {
+        const internalVariableId = computed(() => props.content.variableId);
+        const variableId = wwLib.wwVariable.useComponentVariable(props.uid, 'value', '', internalVariableId);
+
+        return { variableId };
+    },
     data() {
         return {
             internalChecked: false,
         };
     },
-    mounted() {
-        if (this.content.initialValue !== undefined) {
-            this.checked = !!this.content.initialValue;
-        }
-    },
     computed: {
         checked: {
             get() {
-                if (!this.content.variable) return this.internalChecked;
-                return wwLib.wwVariable.getValue(this.content.variable);
+                if (this.variableId) return wwLib.wwVariable.getValue(this.variableId);
+                return this.internalChecked;
             },
             set(value) {
-                if (!this.content.variable) {
-                    this.internalChecked = value;
-                    this.$emit('trigger-event', { name: 'change', event: { value } });
-                    return;
-                }
-                wwLib.wwVariable.updateValue(this.content.variable, value);
                 this.$emit('trigger-event', { name: 'change', event: { value } });
+                this.internalChecked = value;
+                if (this.variableId) wwLib.wwVariable.updateValue(this.variableId, value);
             },
         },
         isEditing() {
@@ -89,13 +89,30 @@ export default {
         'content.isEmbeddedContainer': {
             async handler(value) {
                 if (value && !this.content.embeddedContainer) {
-                    const embeddedContainer = await wwLib.createElement('ww-flexbox', {}, {}, this.wwFrontState.sectionId);
+                    const embeddedContainer = await wwLib.createElement(
+                        'ww-flexbox',
+                        {},
+                        {},
+                        this.wwFrontState.sectionId
+                    );
                     this.$emit('update:content:effect', { embeddedContainer });
                 } else if (!value) {
                     this.$emit('update:content:effect', { embeddedContainer: null });
                 }
             },
         },
+        /* wwEditor:start */
+        'content.initialValue'(value) {
+            if (value !== undefined && !this.content.variableId) {
+                this.checked = value;
+            }
+        },
+        /* wwEditor:end */
+    },
+    mounted() {
+        if (this.content.initialValue !== undefined && !this.content.variableId) {
+            this.checked = !!this.content.initialValue;
+        }
     },
 };
 </script>
