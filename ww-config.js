@@ -50,7 +50,7 @@ export default {
             },
             type: 'Variable',
             options: {
-                type: 'Boolean',
+                types: ['Boolean'],
             },
             section: 'settings',
             bindable: true,
