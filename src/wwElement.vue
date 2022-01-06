@@ -5,7 +5,7 @@
         :class="{ editing: isEditing, selected: isSelected }"
         @click="checked = !checked"
     >
-        <input ref="checkboxInput" v-model="checked" type="checkbox" />
+        <input ref="checkboxInput" v-model="checked" type="checkbox" :name="wwElementState.name" />
         <wwElement
             v-if="content.isEmbeddedContainer"
             class="embedded-container"
@@ -21,8 +21,6 @@
 </template>
 
 <script>
-import { computed } from 'vue';
-
 export default {
     props: {
         /* wwEditor:start */
@@ -30,30 +28,32 @@ export default {
         /* wwEditor:end */
         content: { type: Object, required: true },
         wwFrontState: { type: Object, required: true },
+        wwElementState: { type: Object, required: true },
         uid: { type: String, required: true },
     },
     emits: ['update:content:effect', 'trigger-event'],
     setup(props) {
-        const internalVariableId = computed(() => props.content.variableId);
-        const variableId = wwLib.wwVariable.useComponentVariable(props.uid, 'value', '', internalVariableId);
+        const { value: variableValue, setValue } = wwLib.wwVariable.useComponentVariable(props.uid, 'value', false);
 
-        return { variableId };
+        return { variableValue, setValue };
     },
     data() {
         return {
-            internalChecked: false,
+            internalChecked: this.variableValue,
         };
     },
     computed: {
         checked: {
             get() {
-                if (this.variableId) return wwLib.wwVariable.getValue(this.variableId);
-                return this.internalChecked;
+                return !!this.variableValue;
             },
             set(value) {
-                this.$emit('trigger-event', { name: 'change', event: { value } });
-                this.internalChecked = value;
-                if (this.variableId) wwLib.wwVariable.updateValue(this.variableId, value);
+                value = !!value;
+                if (value !== this.variableValue) {
+                    this.$emit('trigger-event', { name: 'change', event: { value } });
+                    this.internalChecked = value;
+                    this.setValue(value);
+                }
             },
         },
         isEditing() {
@@ -101,18 +101,9 @@ export default {
                 }
             },
         },
-        /* wwEditor:start */
-        'content.initialValue'(value) {
-            if (value !== undefined && !this.content.variableId) {
-                this.checked = value;
-            }
+        'content.value'(value) {
+            this.checked = !!value;
         },
-        /* wwEditor:end */
-    },
-    mounted() {
-        if (this.content.initialValue !== undefined && !this.content.variableId) {
-            this.checked = !!this.content.initialValue;
-        }
     },
 };
 </script>
