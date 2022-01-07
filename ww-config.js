@@ -14,33 +14,13 @@ export default {
     },
     triggerEvents: [{ name: 'change', label: { en: 'On change' }, event: { value: '' } }],
     properties: {
-        name: {
-            label: { en: 'Name', fr: 'Name' },
-            type: 'Text',
-            options: { placeholder: 'Name' },
-            section: 'settings',
-            defaultValue: 'checkbox',
-        },
-        variableId: {
+        value: {
             label: {
-                en: 'Associated variable (Boolean)',
-            },
-            type: 'Variable',
-            options: {
-                types: ['Boolean'],
-            },
-            section: 'settings',
-            defaultValue: null,
-            hidden: content => !content.variableId,
-        },
-        initialValue: {
-            label: {
-                en: 'Initial value',
+                en: 'Value',
             },
             type: 'OnOff',
             section: 'settings',
-            bindable: true,
-            hidden: content => content.variableId,
+            bindable: true
         },
         isEmbeddedContainer: {
             type: 'OnOff',
