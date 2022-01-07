@@ -37,11 +37,6 @@ export default {
 
         return { variableValue, setValue };
     },
-    data() {
-        return {
-            internalChecked: this.variableValue,
-        };
-    },
     computed: {
         checked: {
             get() {
@@ -51,7 +46,6 @@ export default {
                 value = !!value;
                 if (value !== this.variableValue) {
                     this.$emit('trigger-event', { name: 'change', event: { value } });
-                    this.internalChecked = value;
                     this.setValue(value);
                 }
             },
