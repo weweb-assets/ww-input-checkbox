@@ -1,7 +1,6 @@
-<template>
+<template v-if="content.globalSettings">
     <div class="ww-form-checkbox">
         <input
-            v-if="content.globalSettings"
             :id="content.globalSettings.name"
             class="ww-form-checkbox__elem"
             :class="{ editing: isEditing }"
@@ -23,13 +22,6 @@ export default {
         wwEditorState: { type: Object, required: true },
         /* wwEditor:end */
     },
-    wwDefaultContent: {
-        globalSettings: {
-            name: '',
-            required: false,
-        },
-        wwObject: { isWwObject: true, type: 'ww-text' },
-    },
     computed: {
         isEditing() {
             /* wwEditor:start */
@@ -49,7 +41,6 @@ export default {
     width: 100%;
     padding: var(--ww-spacing-01) 0;
     align-items: center;
-
     &__elem {
         outline: none;
         margin-right: var(--ww-spacing-02);
