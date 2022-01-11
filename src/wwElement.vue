@@ -5,12 +5,23 @@
         :class="{ editing: isEditing, selected: isSelected }"
         @click="checked = !checked"
     >
-        <input ref="checkboxInput" v-model="checked" type="checkbox" :name="wwElementState.name" />
-        <wwElement
-            v-if="content.isEmbeddedContainer"
-            class="embedded-container"
-            v-bind="content.embeddedContainer"
-        ></wwElement>
+        <input
+            :id="`${wwElementState.name}-${uid}`"
+            ref="checkboxInput"
+            :checked="value"
+            :value="value"
+            type="checkbox"
+            :name="`${wwElementState.name}-${uid}`"
+            @input="handleManualInput($event.target.checked)"
+        />
+
+        <component :is="isEditing ? 'div' : 'label'" :for="`${wwElementState.name}-${uid}`">
+            <wwElement
+                v-if="content.isEmbeddedContainer"
+                class="embedded-container"
+                v-bind="content.embeddedContainer"
+            ></wwElement>
+        </component>
 
         <!-- wwEditor:start -->
         <div class="ww-webapp-checkbox__menu">
@@ -33,22 +44,17 @@ export default {
     },
     emits: ['update:content:effect', 'trigger-event'],
     setup(props) {
-        const { value: variableValue, setValue } = wwLib.wwVariable.useComponentVariable(props.uid, 'value', false);
+        const { value: variableValue, setValue } = wwLib.wwVariable.useComponentVariable(
+            props.uid,
+            'value',
+            props.content.value === undefined ? false : props.content.value
+        );
 
         return { variableValue, setValue };
     },
     computed: {
-        checked: {
-            get() {
-                return !!this.variableValue;
-            },
-            set(value) {
-                value = !!value;
-                if (value !== this.variableValue) {
-                    this.$emit('trigger-event', { name: 'change', event: { value } });
-                    this.setValue(value);
-                }
-            },
+        value() {
+            return !!this.variableValue;
         },
         isEditing() {
             /* wwEditor:start */
@@ -95,8 +101,17 @@ export default {
                 }
             },
         },
-        'content.value'(value) {
-            this.checked = !!value;
+        'content.value'(newValue, OldValue) {
+            if (newValue === OldValue) return;
+            this.setValue(!!newValue);
+            this.$emit('trigger-event', { name: 'initValueChange', event: { value: !!newValue } });
+        },
+    },
+    methods: {
+        handleManualInput(value) {
+            if (value === this.value) return;
+            this.setValue(value);
+            this.$emit('trigger-event', { name: 'change', event: { value } });
         },
     },
 };
