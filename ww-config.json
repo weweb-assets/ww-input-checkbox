@@ -1,0 +1,24 @@
+{
+    "componentPath": "./src/wwElement.vue",
+    "editor": {
+        "label": {
+            "fr": "Case à choser de formulaire",
+            "en": "Form checkbox"
+        },
+        "settingsOptions": {
+            "name": {
+                "path": "globalSettings.name",
+                "label": { "en": "Name", "fr": "fr" },
+                "type": "Text",
+                "options": {
+                    "placeholder": "Name"
+                }
+            },
+            "required": {
+                "path": "globalSettings.required",
+                "label": { "en": "Required", "fr": "Requis" },
+                "type": "OnOff"
+            }
+        }
+    }
+}
