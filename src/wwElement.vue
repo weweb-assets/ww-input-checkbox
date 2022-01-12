@@ -101,14 +101,16 @@ export default {
                 }
             },
         },
-        'content.value'(newValue, OldValue) {
-            if (newValue === OldValue) return;
-            this.setValue(!!newValue);
-            this.$emit('trigger-event', { name: 'initValueChange', event: { value: !!newValue } });
+        'content.value'(newValue) {
+            newValue = !!newValue;
+            if (newValue === this.value) return;
+            this.setValue(newValue);
+            this.$emit('trigger-event', { name: 'initValueChange', event: { value: newValue } });
         },
     },
     methods: {
         handleManualInput(value) {
+            value = !!value;
             if (value === this.value) return;
             this.setValue(value);
             this.$emit('trigger-event', { name: 'change', event: { value } });
