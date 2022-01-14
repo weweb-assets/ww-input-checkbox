@@ -1,14 +1,14 @@
 <template v-if="content.globalSettings">
     <div class="ww-form-checkbox">
         <input
-            :id="content.globalSettings.name"
+            :id="`${content.globalSettings.name}-${uniqueId}-${uid}`"
             class="ww-form-checkbox__elem"
             :class="{ editing: isEditing }"
             type="checkbox"
-            :name="content.globalSettings.name"
+            :name="`${content.globalSettings.name}-${uniqueId}-${uid}`"
             :required="content.globalSettings.required"
         />
-        <component :is="isEditing ? 'div' : 'label'" :for="content.globalSettings.name">
+        <component :is="isEditing ? 'div' : 'label'" :for="`${content.globalSettings.name}-${uniqueId}-${uid}`">
             <wwElement v-bind="content.wwObject" />
         </component>
     </div>
@@ -18,9 +18,13 @@
 export default {
     props: {
         content: { type: Object, required: true },
+        uid: { type: String, required: true },
         /* wwEditor:start */
         wwEditorState: { type: Object, required: true },
         /* wwEditor:end */
+    },
+    setup() {
+        return { uniqueId: wwLib.wwUtils.getUid() };
     },
     computed: {
         isEditing() {
