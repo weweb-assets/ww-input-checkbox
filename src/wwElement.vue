@@ -6,16 +6,16 @@
         @click="checked = !checked"
     >
         <input
-            :id="`${wwElementState.name}-${uid}`"
+            :id="`${wwElementState.name}-${uniqueId}-${uid}`"
             ref="checkboxInput"
             :checked="value"
             :value="value"
             type="checkbox"
-            :name="`${wwElementState.name}-${uid}`"
+            :name="`${wwElementState.name}-${uniqueId}-${uid}`"
             @input="handleManualInput($event.target.checked)"
         />
 
-        <component :is="isEditing ? 'div' : 'label'" :for="`${wwElementState.name}-${uid}`">
+        <component :is="isEditing ? 'div' : 'label'" :for="`${wwElementState.name}-${uniqueId}-${uid}`">
             <wwElement
                 v-if="content.isEmbeddedContainer"
                 class="embedded-container"
@@ -50,7 +50,7 @@ export default {
             props.content.value === undefined ? false : props.content.value
         );
 
-        return { variableValue, setValue };
+        return { variableValue, setValue, uniqueId: wwLib.wwUtils.getUid() };
     },
     computed: {
         value() {
