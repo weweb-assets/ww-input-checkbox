@@ -43,11 +43,11 @@ export default {
     display: flex;
     flex-wrap: nowrap;
     width: 100%;
-    padding: var(--ww-spacing-01) 0;
+    padding: 0.4rem 0;
     align-items: center;
     &__elem {
         outline: none;
-        margin-right: var(--ww-spacing-02);
+        margin-right: 0.8rem;
         /* wwEditor:start */
         &.editing {
             pointer-events: none;
