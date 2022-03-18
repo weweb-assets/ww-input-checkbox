@@ -44,17 +44,18 @@ export default {
     },
     emits: ['update:content:effect', 'trigger-event'],
     setup(props) {
-        const { value: variableValue, setValue } = wwLib.wwVariable.useComponentVariable(
-            props.uid,
-            'value',
-            props.content.value === undefined ? false : props.content.value
-        );
+        const { value: variableValue, setValue } = wwLib.wwVariable.useComponentVariable({
+            uid: props.uid,
+            name: 'value',
+            defaultValue: props.content.value,
+            sanitizer: value => !!value
+        });
 
         return { variableValue, setValue, uniqueId: wwLib.wwUtils.getUid() };
     },
     computed: {
         value() {
-            return !!this.variableValue;
+            return this.variableValue;
         },
         isEditing() {
             /* wwEditor:start */
@@ -101,19 +102,19 @@ export default {
                 }
             },
         },
-        'content.value'(newValue) {
-            newValue = !!newValue;
-            if (newValue === this.value) return;
-            this.setValue(newValue);
-            this.$emit('trigger-event', { name: 'initValueChange', event: { value: newValue } });
+        'content.value'(value) {
+            const { newValue, hasChanged } = this.setValue(value);
+            if (hasChanged) {
+                this.$emit('trigger-event', { name: 'initValueChange', event: { value: newValue } });
+            }
         },
     },
     methods: {
         handleManualInput(value) {
-            value = !!value;
-            if (value === this.value) return;
-            this.setValue(value);
-            this.$emit('trigger-event', { name: 'change', event: { value } });
+            const { newValue, hasChanged } = this.setValue(value);
+            if (hasChanged) {
+                this.$emit('trigger-event', { name: 'change', event: { value: newValue } });
+            }
         },
     },
 };
