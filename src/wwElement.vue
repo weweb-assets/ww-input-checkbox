@@ -44,11 +44,12 @@ export default {
     },
     emits: ['update:content:effect', 'trigger-event'],
     setup(props) {
-        const { value: variableValue, setValue } = wwLib.wwVariable.useComponentVariable(
-            props.uid,
-            'value',
-            props.content.value === undefined ? false : props.content.value
-        );
+        const { value: variableValue, setValue } = wwLib.wwVariable.useComponentVariable({
+            uid: props.uid,
+            name: 'value',
+            type: 'boolean'
+            defaultValue: props.content.value === undefined ? false : props.content.value
+        });
 
         return { variableValue, setValue, uniqueId: wwLib.wwUtils.getUid() };
     },
