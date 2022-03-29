@@ -47,7 +47,7 @@ export default {
         const { value: variableValue, setValue } = wwLib.wwVariable.useComponentVariable({
             uid: props.uid,
             name: 'value',
-            type: 'boolean'
+            type: 'boolean',
             defaultValue: props.content.value === undefined ? false : props.content.value
         });
 
