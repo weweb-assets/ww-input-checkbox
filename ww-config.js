@@ -23,7 +23,16 @@ export default {
             },
             type: 'OnOff',
             section: 'settings',
-            bindable: true
+            bindable: true,
+        },
+        forceCheck: {
+            hidden: (content, sidepanelContent, boundProps) => !boundProps.value,
+            label: {
+                en: 'Force checked state',
+            },
+            type: 'OnOff',
+            section: 'settings',
+            editorOnly: true,
         },
         isEmbeddedContainer: {
             type: 'OnOff',
@@ -57,6 +66,10 @@ export default {
         embeddedContainer: {
             hidden: true,
             defaultValue: null,
+        },
+        checkbox: {
+            hidden: true,
+            defaultValue: { isWwObject: true, type: 'ww-checkbox' },
         },
     },
 };

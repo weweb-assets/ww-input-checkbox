@@ -1,10 +1,5 @@
 <template>
-    <div
-        class="ww-webapp-checkbox"
-        :style="cssVariables"
-        :class="{ editing: isEditing, selected: isSelected }"
-        @click="checked = !checked"
-    >
+    <div class="ww-webapp-checkbox" :style="cssVariables" :class="{ editing: isEditing, selected: isSelected }">
         <input
             :id="`${wwElementState.name}-${uniqueId}-${uid}`"
             ref="checkboxInput"
@@ -12,8 +7,16 @@
             :value="value"
             type="checkbox"
             :name="`${wwElementState.name}-${uniqueId}-${uid}`"
+            style="display: none"
             @input="handleManualInput($event.target.checked)"
         />
+        <component :is="isEditing ? 'div' : 'label'" :for="`${wwElementState.name}-${uniqueId}-${uid}`">
+            <wwElement
+                v-bind="content.checkbox"
+                :ww-props="{ checked: value }"
+                :states="value && ['checked']"
+            ></wwElement>
+        </component>
 
         <component :is="isEditing ? 'div' : 'label'" :for="`${wwElementState.name}-${uniqueId}-${uid}`">
             <wwElement
@@ -48,13 +51,17 @@ export default {
             uid: props.uid,
             name: 'value',
             type: 'boolean',
-            defaultValue: props.content.value === undefined ? false : props.content.value
+            defaultValue: props.content.value === undefined ? false : props.content.value,
         });
 
         return { variableValue, setValue, uniqueId: wwLib.wwUtils.getUid() };
     },
     computed: {
         value() {
+            /* wwEditor:start */
+            return !!this.variableValue || (this.wwEditorState.sidepanelContent.forceCheck && this.isEditing);
+            /* wwEditor:end */
+            // eslint-disable-next-line no-unreachable
             return !!this.variableValue;
         },
         isEditing() {
