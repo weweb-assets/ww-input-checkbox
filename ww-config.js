@@ -25,15 +25,6 @@ export default {
             section: 'settings',
             bindable: true,
         },
-        forceCheck: {
-            hidden: (content, sidepanelContent, boundProps) => !boundProps.value,
-            label: {
-                en: 'Force checked state',
-            },
-            type: 'OnOff',
-            section: 'settings',
-            editorOnly: true,
-        },
         isEmbeddedContainer: {
             type: 'OnOff',
             label: {

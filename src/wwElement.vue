@@ -7,14 +7,18 @@
             :value="value"
             type="checkbox"
             :name="`${wwElementState.name}-${uniqueId}-${uid}`"
-            style="display: none"
+            :style="content.checkbox && 'display: none'"
             @input="handleManualInput($event.target.checked)"
         />
-        <component :is="isEditing ? 'div' : 'label'" :for="`${wwElementState.name}-${uniqueId}-${uid}`">
+        <component
+            :is="isEditing ? 'div' : 'label'"
+            v-if="content.checkbox"
+            :for="`${wwElementState.name}-${uniqueId}-${uid}`"
+        >
             <wwElement
                 v-bind="content.checkbox"
                 :ww-props="{ checked: value }"
-                :states="value && ['checked']"
+                :states="value ? ['checked'] : []"
             ></wwElement>
         </component>
 
@@ -58,10 +62,6 @@ export default {
     },
     computed: {
         value() {
-            /* wwEditor:start */
-            return !!this.variableValue || (this.wwEditorState.sidepanelContent.forceCheck && this.isEditing);
-            /* wwEditor:end */
-            // eslint-disable-next-line no-unreachable
             return !!this.variableValue;
         },
         isEditing() {
