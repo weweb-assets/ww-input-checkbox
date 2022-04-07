@@ -23,7 +23,7 @@ export default {
             },
             type: 'OnOff',
             section: 'settings',
-            bindable: true
+            bindable: true,
         },
         isEmbeddedContainer: {
             type: 'OnOff',
@@ -57,6 +57,10 @@ export default {
         embeddedContainer: {
             hidden: true,
             defaultValue: null,
+        },
+        checkbox: {
+            hidden: true,
+            defaultValue: { isWwObject: true, type: 'ww-checkbox' },
         },
     },
 };
