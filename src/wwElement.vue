@@ -17,7 +17,6 @@
         >
             <wwElement
                 v-bind="content.checkbox"
-                :ww-props="{ checked: value }"
                 :states="value ? ['checked'] : []"
             ></wwElement>
         </component>
