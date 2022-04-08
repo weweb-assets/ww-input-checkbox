@@ -60,7 +60,32 @@ export default {
         },
         checkbox: {
             hidden: true,
-            defaultValue: { isWwObject: true, type: 'ww-checkbox' },
+            defaultValue: {
+                isWwObject: true,
+                type: 'ww-checkbox',
+                content: {
+                    color: '#FFFFFF',
+                    fontSize: 10,
+                    icon: 'fas fa-check',
+                },
+                state: {
+                    states: ['checked'],
+                    style: {
+                        default: {
+                            backgroundColor: '#FFFFFF',
+                            border: '1px solid #767676',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            height: 'auto',
+                            padding: '2px',
+                            width: 'auto',
+                        },
+                        checked_default: {
+                            backgroundColor: '#767676',
+                        },
+                    },
+                },
+            },
         },
     },
 };

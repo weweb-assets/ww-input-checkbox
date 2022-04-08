@@ -15,10 +15,7 @@
             v-if="content.checkbox"
             :for="`${wwElementState.name}-${uniqueId}-${uid}`"
         >
-            <wwElement
-                v-bind="content.checkbox"
-                :states="value ? ['checked'] : []"
-            ></wwElement>
+            <wwElement v-bind="content.checkbox" :states="value ? ['checked'] : []"></wwElement>
         </component>
 
         <component :is="isEditing ? 'div' : 'label'" :for="`${wwElementState.name}-${uniqueId}-${uid}`">
