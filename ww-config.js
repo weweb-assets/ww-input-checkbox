@@ -5,12 +5,6 @@ export default {
             fr: 'Checkbox',
         },
         icon: 'fontawesome/solid/check-square',
-        menuOptions: {
-            quick: {
-                label: { en: 'Checkbox' },
-                sections: ['variableId', 'initialValue'],
-            },
-        },
     },
     triggerEvents: [
         { name: 'change', label: { en: 'On change' }, event: { value: '' } },
@@ -24,6 +18,13 @@ export default {
             type: 'OnOff',
             section: 'settings',
             bindable: true,
+        },
+        required: {
+            label: 'Required',
+            type: 'OnOff',
+            section: 'settings',
+            defaultValue: false,
+            bindable: true
         },
         isEmbeddedContainer: {
             type: 'OnOff',

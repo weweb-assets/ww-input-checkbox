@@ -9,6 +9,7 @@
             :name="`${wwElementState.name}-${uniqueId}-${uid}`"
             :style="content.checkbox && 'display: none'"
             @input="handleManualInput($event.target.checked)"
+            :required="content.required"
         />
         <component
             :is="isEditing ? 'div' : 'label'"
