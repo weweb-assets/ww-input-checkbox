@@ -23,7 +23,7 @@ export default {
             label: 'Required',
             type: 'OnOff',
             section: 'settings',
-            defaultValue: true,
+            defaultValue: false,
             bindable: true
         },
         isEmbeddedContainer: {
