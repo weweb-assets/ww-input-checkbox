@@ -7,9 +7,9 @@
             :value="value"
             type="checkbox"
             :name="`${wwElementState.name}-${uniqueId}-${uid}`"
-            :style="content.checkbox && 'display: none'"
-            @input="handleManualInput($event.target.checked)"
+            :class="content.checkbox && 'hidden'"
             :required="content.required"
+            @input="handleManualInput($event.target.checked)"
         />
         <component
             :is="isEditing ? 'div' : 'label'"
@@ -132,6 +132,15 @@ export default {
     display: flex;
     flex-direction: var(--container-direction);
     align-items: center;
+    position: relative;
+
+    & .hidden {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        pointer-events: none;
+    }
 
     /* wwEditor:start */
     &__status {
