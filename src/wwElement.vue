@@ -9,7 +9,7 @@
             :name="`${wwElementState.name}-${uniqueId}-${uid}`"
             :class="content.checkbox && 'hidden'"
             :required="content.required"
-            @input="handleManualInput($event.target.checked)"
+            @input="handleManualInput($event)"
         />
         <component
             :is="isEditing ? 'div' : 'label'"
@@ -114,11 +114,11 @@ export default {
         },
     },
     methods: {
-        handleManualInput(value) {
-            value = !!value;
+        handleManualInput(event) {
+            const value = !!event.target.checked;
             if (value === this.value) return;
             this.setValue(value);
-            this.$emit('trigger-event', { name: 'change', event: { value } });
+            this.$emit('trigger-event', { name: 'change', event: { domEvent: event, value } });
         },
     },
 };
