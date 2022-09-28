@@ -24,7 +24,13 @@ export default {
             type: 'OnOff',
             section: 'settings',
             defaultValue: false,
-            bindable: true
+            bindable: true,
+            /* wwEditor:start */
+            bindingValidation: {
+                type: 'boolean',
+                tooltip: 'A boolean that defines if the input is required: `true | false',
+            },
+            /* wwEditor:end */
         },
         isEmbeddedContainer: {
             type: 'OnOff',
