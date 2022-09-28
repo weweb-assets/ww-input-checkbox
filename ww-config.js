@@ -24,7 +24,15 @@ export default {
             type: 'OnOff',
             section: 'settings',
             defaultValue: false,
-            bindable: true
+            bindable: true,
+        },
+        readonly: {
+            label: { en: 'Read only', fr: 'Lecture seule' },
+            type: 'OnOff',
+            section: 'settings',
+            bindable: true,
+            defaultValue: false,
+            hidden: (content, sidePanelContent, boundProps, wwProps) => !!(wwProps && wwProps.readonly !== undefined),
         },
         isEmbeddedContainer: {
             type: 'OnOff',
