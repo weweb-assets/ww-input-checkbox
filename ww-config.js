@@ -4,7 +4,7 @@ export default {
             en: 'Checkbox',
             fr: 'Checkbox',
         },
-        icon: 'fontawesome/solid/check-square',
+        icon: 'check',
     },
     triggerEvents: [
         { name: 'change', label: { en: 'On change' }, event: { value: '' }, default: true },
