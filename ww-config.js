@@ -1,6 +1,7 @@
 export default {
     editor: {
         label: { fr: 'Case à choser de formulaire', en: 'Form checkbox' },
+        deprecated: 'Use a checkbox input from the Elements panel instead of this one.',
     },
     properties: {
         globalSettings: {
