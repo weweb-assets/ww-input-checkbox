@@ -9,6 +9,8 @@
             :name="`${wwElementState.name}-${uniqueId}-${uid}`"
             :class="content.checkbox && 'hidden'"
             :required="content.required"
+            :disabled="isReadonly"
+            v-bind="attributes"
             @input="handleManualInput($event)"
         />
         <component
@@ -88,6 +90,14 @@ export default {
             return {
                 '--container-direction': flexDirection,
             };
+        },
+        isReadonly() {
+            return this.wwElementState.props.readonly === undefined
+                ? this.content.readonly
+                : this.wwElementState.props.readonly;
+        },
+        attributes() {
+            return this.wwElementState.props.attributes;
         },
     },
     watch: {
