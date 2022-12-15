@@ -4,7 +4,7 @@ export default {
             en: 'Checkbox',
             fr: 'Checkbox',
         },
-        icon: 'fontawesome/solid/check-square',
+        icon: 'check',
     },
     triggerEvents: [
         { name: 'change', label: { en: 'On change' }, event: { value: '' }, default: true },
@@ -25,6 +25,13 @@ export default {
             section: 'settings',
             defaultValue: false,
             bindable: true,
+            
+            /* wwEditor:start */
+            bindingValidation: {
+                type: 'boolean',
+                tooltip: 'A boolean that defines if the input is required: `true | false',
+            },
+            /* wwEditor:end */
         },
         readonly: {
             label: { en: 'Read only', fr: 'Lecture seule' },
@@ -33,6 +40,13 @@ export default {
             bindable: true,
             defaultValue: false,
             hidden: (content, sidePanelContent, boundProps, wwProps) => !!(wwProps && wwProps.readonly !== undefined),
+            
+            /* wwEditor:start */
+            bindingValidation: {
+                type: 'boolean',
+                tooltip: 'A boolean that defines if the input is read only: `true | false',
+            },
+            /* wwEditor:end */
         },
         isEmbeddedContainer: {
             type: 'OnOff',

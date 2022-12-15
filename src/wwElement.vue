@@ -31,7 +31,7 @@
 
         <!-- wwEditor:start -->
         <div class="ww-webapp-checkbox__menu">
-            <wwEditorIcon small name="fontawesome/solid/check-square" />
+            <wwEditorIcon small name="chevron-down" />
         </div>
         <!-- wwEditor:end -->
     </div>
