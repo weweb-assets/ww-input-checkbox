@@ -1,5 +1,10 @@
 <template>
-    <div class="ww-webapp-checkbox" :style="cssVariables" :class="{ editing: isEditing, selected: isSelected }">
+    <label
+        class="ww-webapp-checkbox"
+        :style="cssVariables"
+        :class="{ editing: isEditing, selected: isSelected }"
+        :for="`${wwElementState.name}-${uniqueId}-${uid}`"
+    >
         <input
             :id="`${wwElementState.name}-${uniqueId}-${uid}`"
             ref="checkboxInput"
@@ -34,7 +39,7 @@
             <wwEditorIcon small name="chevron-down" />
         </div>
         <!-- wwEditor:end -->
-    </div>
+    </label>
 </template>
 
 <script>
