@@ -1,5 +1,6 @@
 <template>
-    <label
+    <component
+        :is="isEditing ? 'div' : 'label'"
         class="ww-webapp-checkbox"
         :style="cssVariables"
         :class="{ editing: isEditing, selected: isSelected }"
@@ -39,7 +40,7 @@
             <wwEditorIcon small name="chevron-down" />
         </div>
         <!-- wwEditor:end -->
-    </label>
+    </component>
 </template>
 
 <script>
@@ -175,6 +176,10 @@ export default {
             opacity: 1;
             pointer-events: all;
         }
+    }
+
+    &.editing {
+        pointer-events: none;
     }
     &.editing:hover {
         & > .border {
