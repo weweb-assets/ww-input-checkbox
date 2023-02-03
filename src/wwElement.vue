@@ -1,5 +1,11 @@
 <template>
-    <div class="ww-webapp-checkbox" :style="cssVariables" :class="{ editing: isEditing, selected: isSelected }">
+    <component
+        :is="isEditing ? 'div' : 'label'"
+        class="ww-webapp-checkbox"
+        :style="cssVariables"
+        :class="{ editing: isEditing, selected: isSelected }"
+        :for="`${wwElementState.name}-${uniqueId}-${uid}`"
+    >
         <input
             :id="`${wwElementState.name}-${uniqueId}-${uid}`"
             ref="checkboxInput"
@@ -9,6 +15,8 @@
             :name="`${wwElementState.name}-${uniqueId}-${uid}`"
             :class="content.checkbox && 'hidden'"
             :required="content.required"
+            :disabled="isReadonly"
+            v-bind="attributes"
             @input="handleManualInput($event)"
         />
         <component
@@ -32,7 +40,7 @@
             <wwEditorIcon small name="chevron-down" />
         </div>
         <!-- wwEditor:end -->
-    </div>
+    </component>
 </template>
 
 <script>
@@ -88,6 +96,14 @@ export default {
             return {
                 '--container-direction': flexDirection,
             };
+        },
+        isReadonly() {
+            return this.wwElementState.props.readonly === undefined
+                ? this.content.readonly
+                : this.wwElementState.props.readonly;
+        },
+        attributes() {
+            return this.wwElementState.props.attributes;
         },
     },
     watch: {
@@ -160,6 +176,10 @@ export default {
             opacity: 1;
             pointer-events: all;
         }
+    }
+
+    &.editing {
+        pointer-events: none;
     }
     &.editing:hover {
         & > .border {
