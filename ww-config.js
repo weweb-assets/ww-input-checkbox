@@ -92,7 +92,7 @@ export default {
                     icon: 'fas fa-check',
                 },
                 state: {
-                    states: ['checked'],
+                    states: [{id: 'checked', label: 'checked'}],
                     style: {
                         default: {
                             backgroundColor: '#FFFFFF',
