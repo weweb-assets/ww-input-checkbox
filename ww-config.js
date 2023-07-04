@@ -75,6 +75,8 @@ export default {
             },
             section: 'settings',
             responsive: true,
+            states: true,
+            classes: true,
             defaultValue: 'right',
         },
         embeddedContainer: {
