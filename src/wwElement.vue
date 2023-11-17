@@ -65,9 +65,19 @@ export default {
             defaultValue: computed(() => (props.content.value === undefined ? false : props.content.value)),
         });
 
+        /* wwEditor:start */
         const { createElement } = wwLib.useCreateElement();
+        /* wwEditor:end */
 
-        return { variableValue, setValue, uniqueId: wwLib.wwUtils.getUid(), createElement  };
+        return { 
+            variableValue, 
+            setValue, 
+            uniqueId: wwLib.wwUtils.getUid(), 
+            
+            /* wwEditor:start */
+            createElement  
+            /* wwEditor:end */
+        };
     },
     computed: {
         value() {
@@ -126,6 +136,7 @@ export default {
         },
     },
     watch: {
+        /* wwEditor:start */
         'content.isEmbeddedContainer': {
             async handler(value) {
                 if (value && !this.content.embeddedContainer) {
@@ -138,6 +149,7 @@ export default {
                 }
             },
         },
+        /* wwEditor:end */
         'content.value'(newValue) {
             newValue = !!newValue;
             if (newValue === this.value) return;
