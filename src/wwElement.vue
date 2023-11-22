@@ -65,7 +65,19 @@ export default {
             defaultValue: computed(() => (props.content.value === undefined ? false : props.content.value)),
         });
 
-        return { variableValue, setValue, uniqueId: wwLib.wwUtils.getUid() };
+        /* wwEditor:start */
+        const { createElement } = wwLib.useCreateElement();
+        /* wwEditor:end */
+
+        return { 
+            variableValue, 
+            setValue, 
+            uniqueId: wwLib.wwUtils.getUid(), 
+            
+            /* wwEditor:start */
+            createElement  
+            /* wwEditor:end */
+        };
     },
     computed: {
         value() {
@@ -124,14 +136,12 @@ export default {
         },
     },
     watch: {
+        /* wwEditor:start */
         'content.isEmbeddedContainer': {
             async handler(value) {
                 if (value && !this.content.embeddedContainer) {
-                    const embeddedContainer = await wwLib.createElement(
-                        'ww-flexbox',
-                        {},
-                        {},
-                        this.wwFrontState.sectionId
+                    const embeddedContainer = await this.createElement(
+                        'ww-flexbox'
                     );
                     this.$emit('update:content:effect', { embeddedContainer });
                 } else if (!value) {
@@ -139,6 +149,7 @@ export default {
                 }
             },
         },
+        /* wwEditor:end */
         'content.value'(newValue) {
             newValue = !!newValue;
             if (newValue === this.value) return;
