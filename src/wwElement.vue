@@ -18,6 +18,7 @@
             :disabled="isReadonly"
             v-bind="attributes"
             @input="handleManualInput($event)"
+            @click.stop
         />
         <component
             :is="isEditing ? 'div' : 'label'"
