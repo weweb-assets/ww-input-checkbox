@@ -67,16 +67,16 @@ export default {
         });
 
         /* wwEditor:start */
-        const { createElement } = wwLib.useCreateElement();
+        const { createElement } = wwLib.wwElement.useCreate();
         /* wwEditor:end */
 
-        return { 
-            variableValue, 
-            setValue, 
-            uniqueId: wwLib.wwUtils.getUid(), 
-            
+        return {
+            variableValue,
+            setValue,
+            uniqueId: wwLib.wwUtils.getUid(),
+
             /* wwEditor:start */
-            createElement  
+            createElement,
             /* wwEditor:end */
         };
     },
@@ -141,9 +141,7 @@ export default {
         'content.isEmbeddedContainer': {
             async handler(value) {
                 if (value && !this.content.embeddedContainer) {
-                    const embeddedContainer = await this.createElement(
-                        'ww-flexbox'
-                    );
+                    const embeddedContainer = await this.createElement('ww-flexbox');
                     this.$emit('update:content:effect', { embeddedContainer });
                 } else if (!value) {
                     this.$emit('update:content:effect', { embeddedContainer: null });
