@@ -6,6 +6,9 @@ export default {
         },
         icon: 'check',
     },
+    options: {
+        displayAllowedValues: ['flex', 'inline-flex'],
+    },
     triggerEvents: [
         { name: 'change', label: { en: 'On change' }, event: { value: '' }, default: true },
         { name: 'initValueChange', label: { en: 'On init value change' }, event: { value: '' } },
@@ -25,7 +28,7 @@ export default {
             section: 'settings',
             defaultValue: false,
             bindable: true,
-            
+
             /* wwEditor:start */
             bindingValidation: {
                 type: 'boolean',
@@ -40,7 +43,7 @@ export default {
             bindable: true,
             defaultValue: false,
             hidden: (content, sidePanelContent, boundProps, wwProps) => !!(wwProps && wwProps.readonly !== undefined),
-            
+
             /* wwEditor:start */
             bindingValidation: {
                 type: 'boolean',
@@ -94,7 +97,7 @@ export default {
                     icon: 'fas fa-check',
                 },
                 state: {
-                    states: [{id: 'checked', label: 'checked'}],
+                    states: [{ id: 'checked', label: 'checked' }],
                     style: {
                         default: {
                             backgroundColor: '#FFFFFF',
