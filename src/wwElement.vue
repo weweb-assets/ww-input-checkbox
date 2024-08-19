@@ -42,7 +42,6 @@ export default {
 .ww-form-checkbox {
     display: flex;
     flex-wrap: nowrap;
-    width: 100%;
     padding: 0.4rem 0;
     align-items: center;
     &__elem {
