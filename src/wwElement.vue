@@ -3,7 +3,7 @@
         :is="isEditing ? 'div' : 'label'"
         class="ww-webapp-checkbox"
         :style="cssVariables"
-        :class="{ editing: isEditing, selected: isSelected }"
+        :class="{ editing: isEditing }"
         :for="`${wwElementState.name}-${uniqueId}-${uid}`"
     >
         <input
@@ -35,12 +35,6 @@
                 v-bind="content.embeddedContainer"
             ></wwElement>
         </component>
-
-        <!-- wwEditor:start -->
-        <div class="ww-webapp-checkbox__menu">
-            <wwEditorIcon small name="chevron-down" />
-        </div>
-        <!-- wwEditor:end -->
     </component>
 </template>
 
@@ -70,13 +64,13 @@ export default {
         const { createElement } = wwLib.useCreateElement();
         /* wwEditor:end */
 
-        return { 
-            variableValue, 
-            setValue, 
-            uniqueId: wwLib.wwUtils.getUid(), 
-            
+        return {
+            variableValue,
+            setValue,
+            uniqueId: wwLib.wwUtils.getUid(),
+
             /* wwEditor:start */
-            createElement  
+            createElement,
             /* wwEditor:end */
         };
     },
@@ -141,9 +135,7 @@ export default {
         'content.isEmbeddedContainer': {
             async handler(value) {
                 if (value && !this.content.embeddedContainer) {
-                    const embeddedContainer = await this.createElement(
-                        'ww-flexbox'
-                    );
+                    const embeddedContainer = await this.createElement('ww-flexbox');
                     this.$emit('update:content:effect', { embeddedContainer });
                 } else if (!value) {
                     this.$emit('update:content:effect', { embeddedContainer: null });
@@ -184,10 +176,10 @@ export default {
     --container-direction: row;
 }
 .ww-webapp-checkbox {
-    display: flex;
     flex-direction: var(--container-direction);
     align-items: center;
     position: relative;
+    isolation: isolate;
 
     & .hidden {
         position: absolute;
@@ -196,71 +188,5 @@ export default {
         opacity: 0;
         pointer-events: none;
     }
-
-    /* wwEditor:start */
-    &__status {
-        position: absolute;
-        top: -1px;
-        color: var(--ww-color-white);
-        padding: var(--ww-spacing-00) var(--ww-spacing-01);
-        border-radius: var(--ww-spacing-00);
-        background-color: var(--ww-color-blue-500);
-        z-index: 10;
-        opacity: 0;
-        pointer-events: none;
-        right: -1px;
-    }
-    &.selected {
-        > .ww-webapp-checkbox__status {
-            opacity: 1;
-            pointer-events: all;
-        }
-    }
-
-    &.editing {
-        pointer-events: none;
-    }
-    &.editing:hover {
-        & > .border {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border: 1px solid var(--ww-editor-color);
-            pointer-events: none;
-            z-index: 10;
-        }
-        > .ww-webapp-checkbox__menu {
-            opacity: 1;
-            pointer-events: all;
-        }
-    }
-    &__menu {
-        display: flex;
-        position: absolute;
-        top: 0px;
-        left: 5px;
-        transform: translate(-50%, -50%);
-        border-radius: 100%;
-        padding: var(--ww-spacing-01);
-        transition: opacity 0.2s ease;
-        z-index: 101;
-        cursor: pointer;
-        background-color: var(--ww-color-blue-500);
-        color: var(--ww-color-white);
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        pointer-events: none;
-        &:after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(45deg);
-        }
-    }
-    /* wwEditor:end */
 }
 </style>
