@@ -5,6 +5,15 @@ export default {
             fr: 'Checkbox',
         },
         icon: 'check',
+        customSettingsPropertiesOrder: [
+            'formInfobox',
+            ['fieldName', 'customValidation', 'validation'],
+            'value',
+            'readonly',
+            'required',
+            'isEmbeddedContainer',
+            'containerPosition',
+        ],
     },
     options: {
         displayAllowedValues: ['flex', 'inline-flex'],
