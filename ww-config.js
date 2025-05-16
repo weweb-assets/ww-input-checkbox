@@ -94,7 +94,7 @@ export default {
                 content: {
                     color: '#FFFFFF',
                     fontSize: 10,
-                    icon: 'fas fa-check',
+                    icon: 'check',
                 },
                 state: {
                     states: [{ id: 'checked', label: 'checked' }],
