@@ -10,6 +10,9 @@ Properties:
 - `value`: `boolean` - The initial value of the checkbox. Default: `false`
 - `required`: `boolean` - Whether the checkbox is required. Default: `false`
 - `readonly`: `boolean` - Whether the checkbox is read-only. Default: `false`
+- `fieldName`: `string` - The field name for form submission. Default: `''`
+- `customValidation`: `boolean` - Whether to use custom validation. Default: `false`
+- `validation`: `Formula` - Custom validation formula to apply when customValidation is true. Default: `''`
 
 Layout Options:
 - `isEmbeddedContainer`: `boolean` - Whether to show an embedded container for additional content. Default: `false`
@@ -32,3 +35,4 @@ Behavior:
 - Visual representation provided by the ww-checkbox component
 - Supports custom container for labels or additional content
 - Provides two-way binding with value updates
+- Integrates with WeWeb forms when placed inside a form container
