@@ -18,9 +18,9 @@ Layout Options:
 - `isEmbeddedContainer`: `boolean` - Whether to show an embedded container for additional content. Default: `false`
 - `containerPosition`: `'right' | 'left' | 'top' | 'bottom'` - Position of the embedded container relative to the checkbox. Default: `'right'`
 
-Hidden Properties:
-- `embeddedContainer`: `object` - The embedded container element configuration (auto-generated when isEmbeddedContainer is true)
-- `checkbox`: `object` - The visual checkbox element configuration (uses ww-checkbox component)
+Slots:
+- `checkbox`: (element) ww-checkbox - The visual checkbox element that displays the check mark. Supports checked and readonly states
+- `embeddedContainer`: (element) ww-div - Optional container for labels or additional content. Hidden when isEmbeddedContainer is false
 
 Events:
 - `change`: Triggered when the checkbox value changes
