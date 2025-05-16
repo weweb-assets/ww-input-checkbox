@@ -1,43 +1,52 @@
 ---
 name: ww-input-checkbox
 description: A fully functional checkbox input component for forms that requires the ww-checkbox component for visual representation
-keywords: checkbox, input, form, selection, toggle, boolean
+keywords: [checkbox, input, form, selection, toggle, boolean]
 ---
 
-#### Input Checkbox
+#### ww-input-checkbox
 
-Properties:
-- `value`: `boolean` - The initial value of the checkbox. Default: `false`
-- `required`: `boolean` - Whether the checkbox is required. Default: `false`
-- `readonly`: `boolean` - Whether the checkbox is read-only. Default: `false`
-- `fieldName`: `string` - The field name for form submission. Default: `''`
-- `customValidation`: `boolean` - Whether to use custom validation. Default: `false`
-- `validation`: `Formula` - Custom validation formula to apply when customValidation is true. Default: `''`
+***Purpose:***
+Provides a complete checkbox input implementation with form integration, state management, and accessibility support. This component uses ww-checkbox for the visual representation while handling all input logic and form submission.
 
-Layout Options:
-- `isEmbeddedContainer`: `boolean` - Whether to show an embedded container for additional content. Default: `false`
-- `containerPosition`: `'right' | 'left' | 'top' | 'bottom'` - Position of the embedded container relative to the checkbox. Default: `'right'`
+***Features:***
+- Full form integration with validation support
+- Accessibility-compliant with native checkbox input
+- Customizable container for labels or additional content
+- Two-way data binding with real-time updates
+- Support for custom validation formulas
 
-Slots:
-- `checkbox`: (element) ww-checkbox - The visual checkbox element that displays the check mark. Supports checked and readonly states
-- `embeddedContainer`: (element) ww-div - Optional container for labels or additional content. Hidden when isEmbeddedContainer is false
+***Properties:***
+- value: boolean - The initial value of the checkbox. Default: false
+- required: boolean - Whether the checkbox is required. Default: false
+- readonly: boolean - Whether the checkbox is read-only. Default: false
+- fieldName: string - The field name for form submission. Default: ''
+- customValidation: boolean - Whether to use custom validation. Default: false
+- validation: Formula - Custom validation formula to apply when customValidation is true. Default: ''
+- isEmbeddedContainer: boolean - Whether to show an embedded container for additional content. Default: false
+- containerPosition: 'right'|'left'|'top'|'bottom' - Position of the embedded container relative to the checkbox. Default: 'right'
 
-Events:
-- `change`: Triggered when the checkbox value changes
-- `initValueChange`: Triggered when the initial value changes
+***Slots:***
+- checkbox: (element) ww-checkbox - The visual checkbox element that displays the check mark. Supports checked and readonly states
+- embeddedContainer: (element) ww-div - Optional container for labels or additional content. Hidden when isEmbeddedContainer is false
 
-States:
-- `checked`: Applied when the checkbox is checked
-- `readonly`: Applied when the checkbox is read-only
+***Exposed Variables:***
+- value: ***READ/WRITE*** The current checkbox value. (path: variables['current_element_uid-value'])
 
-Behavior:
+***Events:***
+- change: Triggered when the checkbox value changes. Payload: { "domEvent": Event, "value": boolean }
+- initValueChange: Triggered when the initial value changes. Payload: { "value": boolean }
+
+***Exposed Element Actions:***
+None
+
+***Notes:***
 - Uses a hidden native HTML checkbox input for accessibility
 - Visual representation provided by the ww-checkbox component
-- Supports custom container for labels or additional content
-- Provides two-way binding with value updates
 - Integrates with WeWeb forms when placed inside a form container
+- States 'checked' and 'readonly' are automatically applied based on value and readonly properties
 
-Example:
+***Example:***
 <elements>
 {"uid":0,"tag":"9ecb2cfc-cef7-4be8-b736-3e17a3b7e9ff","name":"Terms Agreement Form","props":{"default":{"validation":"submit","autocomplete":true,"debounceDelay":"500ms"}},"styles":{"default":{"display":"flex","rowGap":"16px"}},"slots":{"formContent":[{"uid":1}]}}
 {"uid":1,"tag":"b46ed165-7038-4e4b-8047-6d89cab35051","name":"Terms Agreement Checkbox","props":{"default":{"value":false,"readonly":false,"required":false,"fieldName":"term_and_agreement","validation":"","customValidation":false,"containerPosition":"right","isEmbeddedContainer":true}},"styles":{"default":{"cursor":"pointer","display":"flex","alignItems":"center"}},"slots":{"checkbox":{"uid":2},"embeddedContainer":{"uid":3}}}
