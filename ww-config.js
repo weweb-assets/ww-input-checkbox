@@ -90,7 +90,7 @@ export default {
             hidden: true,
             defaultValue: {
                 isWwObject: true,
-                type: 'ww-checkbox',
+                type: '97a63460-5c25-4d74-ac1f-86693c2e4a08',
                 content: {
                     color: '#FFFFFF',
                     fontSize: 10,
