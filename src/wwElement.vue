@@ -141,7 +141,7 @@ export default {
         },
         checkboxStates() {
             const states = [];
-            if (this.value) {
+            if (this.value && !this.isSelected) {
                 states.push('checked');
             }
             if (this.isReadonly) {
