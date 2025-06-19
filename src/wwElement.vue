@@ -210,9 +210,17 @@ export default {
             
             // Try calling method directly on child component
             this.$nextTick(() => {
-                if (this.$refs.checkboxRef && this.$refs.checkboxRef.updateStates) {
-                    console.log('Calling updateStates on child component');
-                    this.$refs.checkboxRef.updateStates(states);
+                console.log('Checking refs:', { refs: this.$refs, checkboxRef: this.$refs.checkboxRef });
+                if (this.$refs.checkboxRef) {
+                    console.log('checkboxRef exists:', { methods: Object.getOwnPropertyNames(this.$refs.checkboxRef) });
+                    if (this.$refs.checkboxRef.updateStates) {
+                        console.log('Calling updateStates on child component');
+                        this.$refs.checkboxRef.updateStates(states);
+                    } else {
+                        console.log('updateStates method not found on child component');
+                    }
+                } else {
+                    console.log('checkboxRef not found in refs');
                 }
             });
         },
