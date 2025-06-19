@@ -25,7 +25,7 @@
             v-if="content.checkbox"
             :for="`${wwElementState.name}-${uniqueId}-${uid}`"
         >
-            <wwElement v-bind="content.checkbox" :states="debugReactiveStates" :key="checkboxKey"></wwElement>
+            <wwElement ref="checkboxRef" v-bind="content.checkbox" :states="debugReactiveStates" :key="checkboxKey"></wwElement>
         </component>
 
         <component :is="isEditing ? 'div' : 'label'" :for="`${wwElementState.name}-${uniqueId}-${uid}`">
@@ -207,6 +207,14 @@ export default {
             this.reactiveCheckboxStates = [...states];
             this.checkboxKey += 1; // Force re-render
             console.log('updateCheckboxStates after update:', { reactiveCheckboxStates: this.reactiveCheckboxStates, key: this.checkboxKey });
+            
+            // Try calling method directly on child component
+            this.$nextTick(() => {
+                if (this.$refs.checkboxRef && this.$refs.checkboxRef.updateStates) {
+                    console.log('Calling updateStates on child component');
+                    this.$refs.checkboxRef.updateStates(states);
+                }
+            });
         },
         handleManualInput(event) {
             const value = !!event.target.checked;
