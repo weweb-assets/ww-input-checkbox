@@ -208,19 +208,18 @@ export default {
             this.checkboxKey += 1; // Force re-render
             console.log('updateCheckboxStates after update:', { reactiveCheckboxStates: this.reactiveCheckboxStates, key: this.checkboxKey });
             
-            // Try calling method directly on child component
+            // Try dispatching event to child component
             this.$nextTick(() => {
-                console.log('Checking refs:', { refs: this.$refs, checkboxRef: this.$refs.checkboxRef });
-                if (this.$refs.checkboxRef) {
-                    console.log('checkboxRef exists:', { methods: Object.getOwnPropertyNames(this.$refs.checkboxRef) });
-                    if (this.$refs.checkboxRef.updateStates) {
-                        console.log('Calling updateStates on child component');
-                        this.$refs.checkboxRef.updateStates(states);
-                    } else {
-                        console.log('updateStates method not found on child component');
-                    }
+                console.log('Dispatching updateCheckboxStates event with states:', states);
+                const checkboxElement = this.$el.querySelector('.ww-checkbox');
+                if (checkboxElement) {
+                    console.log('Found checkbox element, dispatching event');
+                    const event = new CustomEvent('updateCheckboxStates', {
+                        detail: { states }
+                    });
+                    checkboxElement.dispatchEvent(event);
                 } else {
-                    console.log('checkboxRef not found in refs');
+                    console.log('Checkbox element not found');
                 }
             });
         },
