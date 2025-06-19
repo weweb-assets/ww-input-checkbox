@@ -142,6 +142,19 @@ export default {
                 states.push('readonly');
             }
             console.log('checkboxStates computed:', { value: this.value, isSelected: this.isSelected, states });
+            
+            // Dispatch event to child component since WeWeb props don't update reliably
+            this.$nextTick(() => {
+                const checkboxElement = this.$el?.querySelector('.ww-checkbox');
+                if (checkboxElement) {
+                    console.log('Dispatching updateCheckboxStates event:', states);
+                    const event = new CustomEvent('updateCheckboxStates', {
+                        detail: { states }
+                    });
+                    checkboxElement.dispatchEvent(event);
+                }
+            });
+            
             return states;
         },
     },
