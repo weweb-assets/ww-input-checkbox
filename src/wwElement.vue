@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { computed, inject, ref } from 'vue';
+import { computed, inject, ref, provide } from 'vue';
 
 export default {
     props: {
@@ -78,11 +78,17 @@ export default {
         const { createElement } = wwLib.useCreateElement();
         /* wwEditor:end */
 
+        const reactiveCheckboxStates = ref([]);
+
+        // Provide the reactive states to child components
+        provide('checkboxStates', reactiveCheckboxStates);
+
         return {
             variableValue,
             setValue,
             uniqueId: wwLib.wwUtils.getUid(),
             forceUpdate: ref(0),
+            reactiveCheckboxStates,
 
             /* wwEditor:start */
             createElement,
@@ -146,6 +152,10 @@ export default {
                 states.push('readonly');
             }
             console.log('ww-input-checkbox checkboxStates:', { value: this.value, isSelected: this.isSelected, states, forceUpdate: this.forceUpdate });
+            
+            // Update the provided reactive states
+            this.reactiveCheckboxStates.splice(0, this.reactiveCheckboxStates.length, ...states);
+            
             return states;
         },
     },
