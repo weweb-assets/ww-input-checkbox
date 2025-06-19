@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { computed, inject } from 'vue';
+import { computed, inject, ref } from 'vue';
 
 export default {
     props: {
@@ -82,6 +82,7 @@ export default {
             variableValue,
             setValue,
             uniqueId: wwLib.wwUtils.getUid(),
+            forceUpdate: ref(0),
 
             /* wwEditor:start */
             createElement,
@@ -134,6 +135,9 @@ export default {
             return this.wwElementState.props.attributes;
         },
         checkboxStates() {
+            // Add forceUpdate as dependency to ensure reactivity
+            this.forceUpdate; // eslint-disable-line no-unused-expressions
+            
             const states = [];
             if (this.value) {
                 states.push('checked');
@@ -141,7 +145,7 @@ export default {
             if (this.isReadonly) {
                 states.push('readonly');
             }
-            console.log('ww-input-checkbox checkboxStates:', { value: this.value, isSelected: this.isSelected, states });
+            console.log('ww-input-checkbox checkboxStates:', { value: this.value, isSelected: this.isSelected, states, forceUpdate: this.forceUpdate });
             return states;
         },
     },
@@ -181,6 +185,11 @@ export default {
             console.log('handleManualInput:', { currentValue: this.value, newValue: value, checked: event.target.checked });
             if (value === this.value) return;
             this.setValue(value);
+            
+            // Force computed property to re-evaluate
+            this.forceUpdate++;
+            console.log('handleManualInput: incremented forceUpdate to', this.forceUpdate);
+            
             this.$emit('trigger-event', { name: 'change', event: { domEvent: event, value } });
         },
     },
