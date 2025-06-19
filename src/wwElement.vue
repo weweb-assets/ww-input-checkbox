@@ -25,7 +25,7 @@
             v-if="content.checkbox"
             :for="`${wwElementState.name}-${uniqueId}-${uid}`"
         >
-            <wwElement ref="checkboxRef" v-bind="content.checkbox" :states="debugReactiveStates" :key="checkboxKey"></wwElement>
+            <wwElement v-bind="content.checkbox" :states="checkboxStates"></wwElement>
         </component>
 
         <component :is="isEditing ? 'div' : 'label'" :for="`${wwElementState.name}-${uniqueId}-${uid}`">
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { computed, inject, ref } from 'vue';
+import { computed, inject } from 'vue';
 
 export default {
     props: {
@@ -82,8 +82,6 @@ export default {
             variableValue,
             setValue,
             uniqueId: wwLib.wwUtils.getUid(),
-            reactiveCheckboxStates: ref([]),
-            checkboxKey: ref(0),
 
             /* wwEditor:start */
             createElement,
@@ -146,10 +144,6 @@ export default {
             console.log('checkboxStates computed:', { value: this.value, isSelected: this.isSelected, states });
             return states;
         },
-        debugReactiveStates() {
-            console.log('debugReactiveStates computed:', { reactiveCheckboxStates: this.reactiveCheckboxStates, key: this.checkboxKey });
-            return this.reactiveCheckboxStates;
-        },
     },
     watch: {
         /* wwEditor:start */
@@ -164,19 +158,6 @@ export default {
             },
         },
         /* wwEditor:end */
-        checkboxStates: {
-            handler(newStates, oldStates) {
-                console.log('checkboxStates watcher:', { newStates, oldStates });
-            },
-            immediate: true
-        },
-        value: {
-            handler() {
-                this.$nextTick(() => {
-                    this.updateCheckboxStates();
-                });
-            }
-        },
         'content.value'(newValue) {
             newValue = !!newValue;
             if (newValue === this.value) return;
@@ -195,47 +176,13 @@ export default {
         },
     },
     methods: {
-        updateCheckboxStates() {
-            const states = [];
-            if (this.value) {
-                states.push('checked');
-            }
-            if (this.isReadonly) {
-                states.push('readonly');
-            }
-            console.log('updateCheckboxStates:', { value: this.value, isReadonly: this.isReadonly, states });
-            this.reactiveCheckboxStates = [...states];
-            this.checkboxKey += 1; // Force re-render
-            console.log('updateCheckboxStates after update:', { reactiveCheckboxStates: this.reactiveCheckboxStates, key: this.checkboxKey });
-            
-            // Try dispatching event to child component
-            this.$nextTick(() => {
-                console.log('Dispatching updateCheckboxStates event with states:', states);
-                const checkboxElement = this.$el.querySelector('.ww-checkbox');
-                if (checkboxElement) {
-                    console.log('Found checkbox element, dispatching event');
-                    const event = new CustomEvent('updateCheckboxStates', {
-                        detail: { states }
-                    });
-                    checkboxElement.dispatchEvent(event);
-                } else {
-                    console.log('Checkbox element not found');
-                }
-            });
-        },
         handleManualInput(event) {
             const value = !!event.target.checked;
             console.log('handleManualInput:', { currentValue: this.value, newValue: value, checked: event.target.checked });
             if (value === this.value) return;
             this.setValue(value);
-            this.$nextTick(() => {
-                this.updateCheckboxStates();
-            });
             this.$emit('trigger-event', { name: 'change', event: { domEvent: event, value } });
         },
-    },
-    mounted() {
-        this.updateCheckboxStates();
     },
 };
 </script>
