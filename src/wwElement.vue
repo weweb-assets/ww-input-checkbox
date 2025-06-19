@@ -141,7 +141,7 @@ export default {
             if (this.isReadonly) {
                 states.push('readonly');
             }
-            console.log('checkboxStates:', { value: this.value, isSelected: this.isSelected, states });
+            console.log('checkboxStates computed:', { value: this.value, isSelected: this.isSelected, states });
             return states;
         },
     },
@@ -158,6 +158,12 @@ export default {
             },
         },
         /* wwEditor:end */
+        checkboxStates: {
+            handler(newStates, oldStates) {
+                console.log('checkboxStates watcher:', { newStates, oldStates });
+            },
+            immediate: true
+        },
         'content.value'(newValue) {
             newValue = !!newValue;
             if (newValue === this.value) return;
