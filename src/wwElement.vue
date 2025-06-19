@@ -25,7 +25,7 @@
             v-if="content.checkbox"
             :for="`${wwElementState.name}-${uniqueId}-${uid}`"
         >
-            <wwElement v-bind="content.checkbox" :states="reactiveCheckboxStates" :key="checkboxKey"></wwElement>
+            <wwElement v-bind="content.checkbox" :states="debugReactiveStates" :key="checkboxKey"></wwElement>
         </component>
 
         <component :is="isEditing ? 'div' : 'label'" :for="`${wwElementState.name}-${uniqueId}-${uid}`">
@@ -145,6 +145,10 @@ export default {
             }
             console.log('checkboxStates computed:', { value: this.value, isSelected: this.isSelected, states });
             return states;
+        },
+        debugReactiveStates() {
+            console.log('debugReactiveStates computed:', { reactiveCheckboxStates: this.reactiveCheckboxStates, key: this.checkboxKey });
+            return this.reactiveCheckboxStates;
         },
     },
     watch: {
