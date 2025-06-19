@@ -25,7 +25,7 @@
             v-if="content.checkbox"
             :for="`${wwElementState.name}-${uniqueId}-${uid}`"
         >
-            <wwElement v-bind="content.checkbox" :states="checkboxStates"></wwElement>
+            <wwElement v-bind="content.checkbox" :states="reactiveCheckboxStates"></wwElement>
         </component>
 
         <component :is="isEditing ? 'div' : 'label'" :for="`${wwElementState.name}-${uniqueId}-${uid}`">
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { computed, inject } from 'vue';
+import { computed, inject, ref } from 'vue';
 
 export default {
     props: {
@@ -82,6 +82,7 @@ export default {
             variableValue,
             setValue,
             uniqueId: wwLib.wwUtils.getUid(),
+            reactiveCheckboxStates: ref([]),
 
             /* wwEditor:start */
             createElement,
@@ -164,6 +165,13 @@ export default {
             },
             immediate: true
         },
+        value: {
+            handler() {
+                this.$nextTick(() => {
+                    this.updateCheckboxStates();
+                });
+            }
+        },
         'content.value'(newValue) {
             newValue = !!newValue;
             if (newValue === this.value) return;
@@ -182,13 +190,30 @@ export default {
         },
     },
     methods: {
+        updateCheckboxStates() {
+            const states = [];
+            if (this.value) {
+                states.push('checked');
+            }
+            if (this.isReadonly) {
+                states.push('readonly');
+            }
+            console.log('updateCheckboxStates:', { value: this.value, isReadonly: this.isReadonly, states });
+            this.reactiveCheckboxStates.splice(0, this.reactiveCheckboxStates.length, ...states);
+        },
         handleManualInput(event) {
             const value = !!event.target.checked;
             console.log('handleManualInput:', { currentValue: this.value, newValue: value, checked: event.target.checked });
             if (value === this.value) return;
             this.setValue(value);
+            this.$nextTick(() => {
+                this.updateCheckboxStates();
+            });
             this.$emit('trigger-event', { name: 'change', event: { domEvent: event, value } });
         },
+    },
+    mounted() {
+        this.updateCheckboxStates();
     },
 };
 </script>
