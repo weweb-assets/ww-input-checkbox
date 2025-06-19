@@ -135,12 +135,13 @@ export default {
         },
         checkboxStates() {
             const states = [];
-            if (this.value && !this.isSelected) {
+            if (this.value) {
                 states.push('checked');
             }
             if (this.isReadonly) {
                 states.push('readonly');
             }
+            console.log('checkboxStates:', { value: this.value, isSelected: this.isSelected, states });
             return states;
         },
     },
@@ -177,6 +178,7 @@ export default {
     methods: {
         handleManualInput(event) {
             const value = !!event.target.checked;
+            console.log('handleManualInput:', { currentValue: this.value, newValue: value, checked: event.target.checked });
             if (value === this.value) return;
             this.setValue(value);
             this.$emit('trigger-event', { name: 'change', event: { domEvent: event, value } });
