@@ -25,7 +25,7 @@
             v-if="content.checkbox"
             :for="`${wwElementState.name}-${uniqueId}-${uid}`"
         >
-            <wwElement v-bind="content.checkbox" :states="reactiveCheckboxStates.value"></wwElement>
+            <wwElement v-bind="content.checkbox" :states="reactiveCheckboxStates.value" :key="checkboxKey.value"></wwElement>
         </component>
 
         <component :is="isEditing ? 'div' : 'label'" :for="`${wwElementState.name}-${uniqueId}-${uid}`">
@@ -83,6 +83,7 @@ export default {
             setValue,
             uniqueId: wwLib.wwUtils.getUid(),
             reactiveCheckboxStates: ref([]),
+            checkboxKey: ref(0),
 
             /* wwEditor:start */
             createElement,
@@ -200,7 +201,8 @@ export default {
             }
             console.log('updateCheckboxStates:', { value: this.value, isReadonly: this.isReadonly, states });
             this.reactiveCheckboxStates.value = [...states];
-            console.log('updateCheckboxStates after update:', { reactiveCheckboxStates: this.reactiveCheckboxStates.value });
+            this.checkboxKey.value += 1; // Force re-render
+            console.log('updateCheckboxStates after update:', { reactiveCheckboxStates: this.reactiveCheckboxStates.value, key: this.checkboxKey.value });
         },
         handleManualInput(event) {
             const value = !!event.target.checked;
