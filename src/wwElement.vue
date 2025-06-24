@@ -122,9 +122,18 @@ export default {
                 else flexDirection = 'column';
             }
 
-            return {
+            const variables = {
                 '--container-direction': flexDirection,
             };
+            
+            // Add container gap
+            if (this.content.containerGap && this.content.containerGap !== 'unset') {
+                variables['--container-gap'] = this.content.containerGap;
+            } else {
+                variables['--container-gap'] = '0';
+            }
+
+            return variables;
         },
         isReadonly() {
             /* wwEditor:start */
@@ -198,12 +207,14 @@ export default {
 <style lang="scss" scoped>
 :root {
     --container-direction: row;
+    --container-gap: 0;
 }
 .ww-webapp-checkbox {
     flex-direction: var(--container-direction);
     align-items: center;
     position: relative;
     isolation: isolate;
+    gap: var(--container-gap);
 
     & .hidden {
         position: absolute;

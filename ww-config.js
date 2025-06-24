@@ -13,6 +13,7 @@ export default {
             'required',
             'isEmbeddedContainer',
             'containerPosition',
+            'containerGap',
         ],
     },
     options: {
@@ -111,6 +112,27 @@ export default {
             states: true,
             classes: true,
             defaultValue: 'right',
+        },
+        containerGap: {
+            hidden: content => !content.isEmbeddedContainer,
+            label: {
+                en: 'Container gap',
+                fr: 'Espacement du container',
+            },
+            type: 'Length',
+            options: {
+                unitChoices: [
+                    { value: 'px', label: 'px', min: 0, max: 100 },
+                    { value: 'em', label: 'em', min: 0, max: 10, digits: 3, step: 0.1 },
+                    { value: 'rem', label: 'rem', min: 0, max: 10, digits: 3, step: 0.1 },
+                    { value: 'unset', label: 'none' },
+                ],
+            },
+            section: 'settings',
+            responsive: true,
+            states: true,
+            classes: true,
+            defaultValue: 'unset',
         },
         embeddedContainer: {
             hidden: true,
