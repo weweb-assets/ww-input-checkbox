@@ -127,7 +127,7 @@ export default {
             };
             
             // Add container gap
-            if (this.content.containerGap && this.content.containerGap !== 'unset') {
+            if (this.content.containerGap && this.content.containerGap !== 'auto') {
                 variables['--container-gap'] = this.content.containerGap;
             } else {
                 variables['--container-gap'] = '0';
