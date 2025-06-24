@@ -127,10 +127,10 @@ export default {
             };
             
             // Add container gap
-            if (this.content.containerGap && this.content.containerGap !== 'auto') {
+            if (this.content.containerGap) {
                 variables['--container-gap'] = this.content.containerGap;
             } else {
-                variables['--container-gap'] = '0';
+                variables['--container-gap'] = '0px';
             }
 
             return variables;
