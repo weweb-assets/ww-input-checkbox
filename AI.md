@@ -60,7 +60,7 @@ None
 <elements>
 {"uid":0,"tag":"ww-form-container","name":"Terms Agreement Form","props":{"default":{"validation":"submit","autocomplete":true,"debounceDelay":"500ms"}},"styles":{"default":{"display":"flex","rowGap":"16px"}},"slots":{"formContent":[{"uid":1}]}}
 {"uid":1,"tag":"ww-input-checkbox","name":"Terms Agreement Checkbox","props":{"default":{"value":false,"readonly":false,"required":true,"fieldName":"terms_accepted","validation":"","customValidation":false,"containerPosition":"right","isEmbeddedContainer":true}},"styles":{"default":{"cursor":"pointer","display":"flex","alignItems":"center"}},"slots":{"checkbox":{"uid":2},"embeddedContainer":{"uid":3}}}
-{"uid":2,"tag":"ww-checkbox","name":"Checkbox Icon","props":{"default":{"icon":"lucide/check","color":"#0A89FF"}},"styles":{"default":{"width":"24px","height":"24px"}}}
+{"uid":2,"tag":"ww-checkbox","name":"Checkbox Icon","props":{"default":{"icon":"lucide/check","color":"#00000000"}},"states":[{"id":"checked","label":"checked"}],"styles":{"default":{"width":"24px","height":"24px","color":"#767676"},"checked_default":{"color":"#0A89FF"}}}
 {"uid":3,"tag":"ww-div","name":"Checkbox Label Container","styles":{"default":{"cursor":"pointer","display":"flex","padding":"0 0 0 12px","alignItems":"center"}},"slots":{"children":[{"uid":4}]}}
 {"uid":4,"tag":"ww-text","name":"Terms Agreement Text","props":{"default":{"tag":"p","text":{"en":"I agree to the terms and conditions"}}},"styles":{"default":{"cursor":"pointer","color":"#2a2f34","fontSize":"14px","fontFamily":"sans-serif","lineHeight":"1.5"}}}
 </elements>
