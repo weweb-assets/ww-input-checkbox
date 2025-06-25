@@ -37,6 +37,10 @@ Provides a complete checkbox input implementation with form integration, state m
 - change: Triggered when the checkbox value changes. Payload: { "domEvent": Event, "value": boolean }
 - initValueChange: Triggered when the initial value changes. Payload: { "value": boolean }
 
+***States:***
+- checked: Automatically added when checkbox is checked, removed when unchecked
+- readonly: Automatically added when readonly is true, removed when false
+
 ***Exposed Element Actions:***
 None
 
