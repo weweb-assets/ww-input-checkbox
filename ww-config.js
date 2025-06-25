@@ -130,7 +130,14 @@ export default {
             responsive: true,
             states: true,
             classes: true,
+            bindable: true,
             defaultValue: '0px',
+            /* wwEditor:start */
+            bindingValidation: {
+                type: 'string',
+                tooltip: 'A string that defines the gap between the container and the input.',
+            },
+            /* wwEditor:end */
         },
         embeddedContainer: {
             hidden: true,
