@@ -192,6 +192,16 @@ export default {
                 }
             },
         },
+        value: {
+            immediate: true,
+            handler(value) {
+                if (value) {
+                    this.$emit('add-state', 'checked');
+                } else {
+                    this.$emit('remove-state', 'checked');
+                }
+            },
+        },
     },
     methods: {
         handleManualInput(event) {
