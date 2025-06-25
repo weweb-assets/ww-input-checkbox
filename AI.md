@@ -56,6 +56,14 @@ None
 - The ww-checkbox component automatically handles icon display, states, and transitions
 - DO NOT manually manage icon visibility or checkbox states with conditions
 
+**CRITICAL CHECKBOX STYLING REQUIREMENTS:**
+When creating the ww-checkbox child element:
+- MUST include the "checked" state: `"states":[{"id":"checked","label":"checked"}]`
+- MUST use state-based color in props: `"props":{"default":{"color":"#00000000"},"checked_default":{"color":"#0A89FF"}}`
+- Default color should be transparent (#00000000) to hide the icon when unchecked
+- Checked state MUST have a visible color (e.g., #0A89FF for blue)
+- The component handles opacity automatically - focus on color changes for visual feedback
+
 ***Example:***
 <elements>
 {"uid":0,"tag":"ww-form-container","name":"Terms Agreement Form","props":{"default":{"validation":"submit","autocomplete":true,"debounceDelay":"500ms"}},"styles":{"default":{"display":"flex","rowGap":"16px"}},"slots":{"formContent":[{"uid":1}]}}
