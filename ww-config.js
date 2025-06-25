@@ -15,6 +15,7 @@ export default {
             'containerPosition',
         ],
     },
+    states: ['checked', 'readonly'],
     options: {
         displayAllowedValues: ['flex', 'inline-flex'],
     },
