@@ -122,9 +122,18 @@ export default {
                 else flexDirection = 'column';
             }
 
-            return {
+            const variables = {
                 '--container-direction': flexDirection,
             };
+            
+            // Add container gap
+            if (this.content.containerGap) {
+                variables['--container-gap'] = this.content.containerGap;
+            } else {
+                variables['--container-gap'] = '0px';
+            }
+
+            return variables;
         },
         isReadonly() {
             /* wwEditor:start */
@@ -183,6 +192,16 @@ export default {
                 }
             },
         },
+        value: {
+            immediate: true,
+            handler(value) {
+                if (value) {
+                    this.$emit('add-state', 'checked');
+                } else {
+                    this.$emit('remove-state', 'checked');
+                }
+            },
+        },
     },
     methods: {
         handleManualInput(event) {
@@ -198,12 +217,14 @@ export default {
 <style lang="scss" scoped>
 :root {
     --container-direction: row;
+    --container-gap: 0;
 }
 .ww-webapp-checkbox {
     flex-direction: var(--container-direction);
     align-items: center;
     position: relative;
     isolation: isolate;
+    gap: var(--container-gap);
 
     & .hidden {
         position: absolute;
