@@ -40,7 +40,6 @@ export default {
                 content: !sidePanelContent.form?.name && 'Give your form a meaningful name.',
             }),
             hidden: (_, sidePanelContent) => {
-                console.log('formInfobox hidden', !sidePanelContent.form, sidePanelContent, sidePanelContent.form);
                 return !sidePanelContent.form;
             },
         },
