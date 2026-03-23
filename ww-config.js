@@ -20,7 +20,7 @@ export default {
         displayAllowedValues: ['flex', 'inline-flex'],
     },
     triggerEvents: [
-        { name: 'change', label: { en: 'On change' }, event: { value: '' }, default: true, description: "Run when the value changes." },
+        { name: 'change', label: { en: 'On change' }, event: { value: '' }, default: true, description: "Run when the checkbox is checked or unchecked." },
         { name: 'initValueChange', label: { en: 'On init value change' }, event: { value: '' }, description: "Run when the initial value changes." },
     ],
     properties: {
