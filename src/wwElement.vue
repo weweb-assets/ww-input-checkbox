@@ -13,7 +13,7 @@
             :value="value"
             type="checkbox"
             :name="`${wwElementState.name}-${uniqueId}-${uid}`"
-            :class="content.checkbox && 'hidden'"
+            :class="{ 'ww-webapp-checkbox__native-input': content.checkbox }"
             :required="content.required"
             :disabled="isReadonly"
             v-bind="attributes"
@@ -272,6 +272,7 @@ export default {
             return {
                 id: input.id,
                 name: input.name,
+                className: input.className,
                 checked: input.checked,
                 required: input.required,
                 disabled: input.disabled,
@@ -343,7 +344,7 @@ export default {
     isolation: isolate;
     gap: var(--container-gap);
 
-    & .hidden {
+    &__native-input {
         position: absolute;
         inset: 0;
         width: 100%;
