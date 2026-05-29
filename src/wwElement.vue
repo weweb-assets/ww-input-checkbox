@@ -18,7 +18,8 @@
             :disabled="isReadonly"
             v-bind="attributes"
             @input="handleManualInput($event)"
-            @click.stop
+            @click.stop="handleClick($event)"
+            @invalid="handleInvalid($event)"
         />
         <component
             :is="isEditing ? 'div' : 'label'"
@@ -62,6 +63,7 @@ export default {
 
         // Form integration
         const useForm = inject('_wwForm:useForm', () => {});
+        const formInfo = inject('_wwForm:info', null);
 
         const fieldName = computed(() => props.content.fieldName);
         const validation = computed(() => props.content.validation);
@@ -86,6 +88,7 @@ export default {
         return {
             variableValue,
             setValue,
+            formInfo,
             uniqueId: wwLib.wwUtils.getUid(),
             reactiveCheckboxStates,
 
@@ -179,12 +182,33 @@ export default {
         'content.value'(newValue) {
             newValue = !!newValue;
             if (newValue === this.value) return;
+            this.logDebug('init value changed', { nextValue: newValue, previousValue: this.value });
             this.setValue(newValue);
             this.$emit('trigger-event', { name: 'initValueChange', event: { value: newValue } });
+        },
+        'content.required': {
+            immediate: true,
+            handler(value, oldValue) {
+                this.logDebug('required changed', {
+                    required: !!value,
+                    previousRequired: oldValue === undefined ? undefined : !!oldValue,
+                    input: this.getInputDebugInfo(),
+                });
+            },
+        },
+        'content.checkbox': {
+            immediate: true,
+            handler(value) {
+                this.logDebug('custom checkbox changed', {
+                    hasCustomCheckbox: !!value,
+                    input: this.getInputDebugInfo(),
+                });
+            },
         },
         isReadonly: {
             immediate: true,
             handler(value) {
+                this.logDebug('readonly state changed', { readonly: value });
                 if (value) {
                     this.$emit('add-state', 'readonly');
                 } else {
@@ -194,7 +218,12 @@ export default {
         },
         value: {
             immediate: true,
-            handler(value) {
+            handler(value, oldValue) {
+                this.logDebug('value state changed', {
+                    value,
+                    previousValue: oldValue,
+                    checkedStateApplied: value && !this.isSelected,
+                });
                 if (value) {
                     this.$emit('add-state', 'checked');
                 } else {
@@ -203,9 +232,97 @@ export default {
             },
         },
     },
+    mounted() {
+        this.logDebug('mounted', {
+            input: this.getInputDebugInfo(),
+        });
+    },
     methods: {
+        logDebug(message, payload = {}) {
+            console.info(`[ww-input-checkbox] ${message}`, {
+                uid: this.uid,
+                elementUid: this.wwElementState?.uid,
+                elementName: this.wwElementState?.name,
+                fieldName: this.content.fieldName || this.wwElementState?.name,
+                value: this.value,
+                required: !!this.content.required,
+                readonly: this.isReadonly,
+                form: this.getFormDebugInfo(),
+                ...payload,
+            });
+        },
+        getFormDebugInfo() {
+            if (!this.formInfo) return null;
+
+            return {
+                uid: this.formInfo.uid,
+                componentId: this.formInfo.componentId,
+                name: this.formInfo.name?.value,
+                validationType: this.formInfo.validationType?.value,
+                debounceDelay: this.formInfo.debounceDelay?.value,
+            };
+        },
+        getInputDebugInfo() {
+            const input = this.$refs.checkboxInput;
+            if (!input || typeof window === 'undefined') return null;
+
+            const rect = input.getBoundingClientRect();
+            const styles = window.getComputedStyle(input);
+
+            return {
+                id: input.id,
+                name: input.name,
+                checked: input.checked,
+                required: input.required,
+                disabled: input.disabled,
+                willValidate: input.willValidate,
+                validationMessage: input.validationMessage,
+                validity: {
+                    valid: input.validity.valid,
+                    valueMissing: input.validity.valueMissing,
+                    customError: input.validity.customError,
+                },
+                rect: {
+                    x: rect.x,
+                    y: rect.y,
+                    width: rect.width,
+                    height: rect.height,
+                },
+                styles: {
+                    position: styles.position,
+                    top: styles.top,
+                    right: styles.right,
+                    bottom: styles.bottom,
+                    left: styles.left,
+                    width: styles.width,
+                    height: styles.height,
+                    opacity: styles.opacity,
+                    pointerEvents: styles.pointerEvents,
+                    display: styles.display,
+                    visibility: styles.visibility,
+                },
+            };
+        },
+        handleClick(event) {
+            this.logDebug('click', {
+                nativeChecked: event.target.checked,
+                input: this.getInputDebugInfo(),
+            });
+        },
+        handleInvalid(event) {
+            this.logDebug('native invalid event', {
+                defaultPrevented: event.defaultPrevented,
+                input: this.getInputDebugInfo(),
+            });
+        },
         handleManualInput(event) {
             const value = !!event.target.checked;
+            this.logDebug('input event', {
+                nextValue: value,
+                previousValue: this.value,
+                sameValue: value === this.value,
+                input: this.getInputDebugInfo(),
+            });
             if (value === this.value) return;
             this.setValue(value);
             this.$emit('trigger-event', { name: 'change', event: { domEvent: event, value } });
