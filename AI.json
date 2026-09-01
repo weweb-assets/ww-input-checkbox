@@ -136,6 +136,8 @@
         {
             "name": "checkbox",
             "description": "The visual checkbox element slot. Must exclusively contain a ww-checkbox component. DO NOT use ww-div, ww-icon, or any other component here.",
+            "required": true,
+            "tag": "ww-checkbox",
             "type": "object"
         },
         {
